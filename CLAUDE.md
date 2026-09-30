@@ -49,6 +49,14 @@ Not used: `cpg0037-oasis/xellar` (organ-chip Cell Painting, no brightfield) and 
 - **Oct 9**: buffer, handover, Dmitriy: registration form, make repo public, upload video, submit Writeup.
 - **Oct 10 15:59 UTC**: deadline. Do not start anything new after Oct 9.
 
+## Status (updated 2026-09-30 22:40 UTC)
+
+- Data downloaded to `data/` (gitignored): HepatoPAC Islands 14,112 TIFFs (33 GB) + stacks `npy` (full res, 31 GB) and `npy_ds2` (2x, 7.7 GB); Axiom subset 4,134 TIFFs (33 GB) + `npy_ds4` (689 fields). Manifests with splits committed in `meta/`.
+- Code complete for all stages; smoke-tested end to end (`vptox.train/predict/downstream/toxicity/figures`).
+- Overnight GPU queue (MPS is shared with other agents, ~2.4 s/step): `data/logs/queue_hepatopac.log` (run_all --stage train,eval: unet 5000 steps then 6 ablations, ~07:30 UTC) -> `queue_axiom.log` (run_all --dataset axiom: unet 3000 steps + linear, ~10:00 UTC) -> `queue_extra.log` (unet_fullres ablation, ~11:00 UTC). Then run `python run_all.py --stage downstream,figures` and `python run_all.py --dataset axiom --stage downstream,figures`.
+- Early check (step 750): val Pearson DNA 0.38, ER 0.62, RNA 0.75, AGP 0.64, Mito 0.69. DNA is the hard channel at 1.19 um/px; full-res ablation queued to test this.
+- Report skeleton `docs/report/report.tex` compiles with tectonic (`tectonic -X compile report.tex`); Writeup draft `docs/writeup.md`; video script `docs/video/script.md`, builder `docs/video/build_video.py` (needs `slides.json`).
+
 ## Data rules
 
 Use only public datasets with licences that allow this use; never commit raw data. Attribute: dataset publication(s), Cell Painting Gallery (Weisbart et al. 2024, Nature Methods), AWS Open Data Sponsorship Program.

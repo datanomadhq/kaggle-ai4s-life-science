@@ -2,7 +2,7 @@
 \usepackage[margin=2.2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{amsmath}
+\usepackage{amsmath,amssymb}
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{caption}
@@ -104,7 +104,11 @@ Model & DNA & ER & RNA & AGP & Mito & mean $r$ & mean SSIM & params (M) \\
 
 \section{Impact}
 \label{sec:impact}
-\todo{summarise: cost per plate, time, longitudinal designs, 3Rs, digital twins; who uses it (MPS labs, CROs, tox groups); path to deployment (fine-tune on 1 paired plate).}
+\paragraph{Scientific.} The results establish, on a real liver MPS, which Cell Painting information is recoverable from brightfield alone (island-scale organisation, cytoplasmic compartments and cell density are; fine nuclear texture is harder) and, more importantly, that the readouts toxicologists actually use---nuclear counts, treatment-vs-control separation, compound effect ranking and cytotoxicity---survive the virtual stain. The calibrated uncertainty converts a black-box image generator into an instrument with an error bar, which is the prerequisite for using virtual stains in decision making. The cross-system experiments (HepatoPAC $\leftrightarrow$ U2OS) quantify domain shift and motivate the deployment recipe below.
+
+\paragraph{Practical.} A HepatoPAC or organ-chip plate can be imaged in brightfield every day for the cost of imager time only. With VirtualPaint-Tox each such acquisition yields a Cell-Painting-like morphological profile and a cytotoxicity indicator, so that (i) the time course of toxicity, adaptation or recovery is observed on the \emph{same} tissue instead of being inferred from sacrificial replicates, cutting the number of chips per study; (ii) the terminal Cell Painting endpoint can be reserved for the informative time point; and (iii) wells or chips flagged as cytotoxic (or as unreliable by the uncertainty map) are triaged early. Because brightfield is already part of every Cell Painting acquisition in the OASIS protocol, the training data for a new system come for free from the validation plates a laboratory runs anyway: the deployment recipe is ``acquire one paired plate, fine-tune for an hour, then image label-free''.
+
+\paragraph{Towards organ-chip digital twins.} A digital twin needs a frequent, cheap, quantitative observation of the physical system. Label-free virtual staining with uncertainty is exactly such an observation operator: it maps every brightfield frame to a structured state (virtual channels, features, cytotoxicity score, confidence) that predictive models of the chip can assimilate.
 
 \section{Reproduction}
 \label{sec:reproduction}

@@ -1,0 +1,97 @@
+[
+  {
+    "title": "VirtualPaint-Tox",
+    "bullets": [
+      "Label-free virtual Cell Painting with pixel-wise uncertainty",
+      "for non-destructive toxicity readouts in liver microphysiological systems",
+      "AI4S Open Innovation: AI for Life Science  |  Category: Model & Algorithm",
+      "Dmitriy Kompaneets  |  github.com/datanomadhq/kaggle-ai4s-life-science"
+    ],
+    "narration": "Drug-induced liver injury is the leading cause of drug withdrawal. Organ-on-chip and microphysiological systems promise human-relevant toxicity testing, but their richest readout, Cell Painting, kills the tissue it measures. This is VirtualPaint-Tox: label-free virtual Cell Painting with uncertainty, validated on a real liver microphysiological system."
+  },
+  {
+    "title": "The problem: the best readout is terminal",
+    "bullets": [
+      "Cell Painting: 5 fluorescent dyes, thousands of morphological features, detects bioactivity below cytotoxic doses",
+      "But cells are fixed and stained: one readout, one time point, fluorescence channels consumed",
+      "A liver chip costs hundreds of dollars and lives for weeks",
+      "Brightfield is free, harmless and repeatable every hour on the same living tissue"
+    ],
+    "narration": "Cell Painting stains five cellular compartments and is the workhorse of image-based toxicology. But staining is terminal. It adds cost and phototoxicity, occupies the fluorescence channels, and a chip that costs hundreds of dollars and lives for weeks can be read only once. Brightfield, by contrast, is free, harmless and can be repeated every hour."
+  },
+  {
+    "title": "Data: OASIS HepatoPAC liver MPS (public, CC0)",
+    "bullets": [
+      "OASIS Consortium (HESI + Broad) on the Cell Painting Gallery, AWS Open Data",
+      "HepatoPAC: micropatterned primary human hepatocyte islands + stromal cells, used industrially for DILI testing",
+      "48 wells x 49 fields, brightfield + DNA / ER / RNA / AGP / Mito, 5 compounds x 2 doses + vehicle",
+      "Split strictly by well: 29 train / 7 validation / 12 test wells"
+    ],
+    "image": "results/hepatopac/figures/fig_examples.png",
+    "narration": "We use public OASIS Consortium data from the Cell Painting Gallery: HepatoPAC, a micropatterned co-culture of primary human hepatocytes used industrially for liver injury testing, imaged with brightfield plus the five Cell Painting dyes. Forty-eight wells, five compounds at two doses and vehicle controls. We split strictly by well, so test wells are never seen in training."
+  },
+  {
+    "title": "Method: U-Net with a trust map",
+    "bullets": [
+      "Brightfield in, five virtual channels out (U-Net, 7.8 M parameters)",
+      "Heteroscedastic head: every pixel also predicts its expected error (Laplace likelihood)",
+      "The uncertainty map tells the biologist where the virtual stain is reliable",
+      "Baselines: per-pixel linear, shallow CNN, U-Net without uncertainty, +SSIM, 25 / 50 % of wells, full resolution"
+    ],
+    "narration": "A U-Net predicts all five channels from one brightfield image. The twist: every pixel also gets a predicted error scale, trained with a Laplace likelihood. The result is a trust map that tells a biologist where the virtual stain is reliable and where it is guessing. We compare against per-pixel and shallow baselines and ablate the loss, the training-set size and the resolution."
+  },
+  {
+    "title": "One command, one laptop",
+    "bullets": [
+      "python run_all.py --quick   (20 min smoke test of every stage)",
+      "python run_all.py           (download 33 GB over HTTPS, train, evaluate, downstream, figures)",
+      "python -m vptox.predict_image --input brightfield.tif  ->  5 virtual channels + uncertainty + RGB",
+      "Pinned environment, committed splits, released checkpoints"
+    ],
+    "image": "results/hepatopac/figures/fig_examples.png",
+    "narration": "Everything runs on a laptop from one entry script, with no account and no paid service: the data are fetched over plain HTTPS. Here the model stains brightfield fields it has never seen: real channels on top, virtual channels below, and the uncertainty map on the left."
+  },
+  {
+    "title": "Results: pixel fidelity and calibration",
+    "bullets": [
+      "Held-out wells: Pearson r per channel  <numbers>",
+      "Far above per-pixel and shallow-CNN baselines",
+      "Predicted scale ranks the true errors (Spearman <z>); sparsification error <AUSE>",
+      "Training-set size and resolution ablations"
+    ],
+    "image": "results/hepatopac/figures/fig_channels.png",
+    "narration": "On held-out wells the virtual channels reach Pearson correlations of <numbers>, far above per-pixel and shallow baselines. The uncertainty is informative: the predicted scale ranks the actual errors with Spearman <z>, so the trust map can be used for quality control."
+  },
+  {
+    "title": "Does the virtual stain carry biology?",
+    "bullets": [
+      "Nuclear counts from virtual DNA vs real DNA: r = <>",
+      "<>% of interpretable morphological features preserved",
+      "Treated vs control (leave-one-well-out AUC): real <>, virtual <>, brightfield texture <>",
+      "Per-well compound effect magnitude: Spearman <> between real and virtual"
+    ],
+    "image": "results/hepatopac/figures/fig_downstream.png",
+    "narration": "Does the virtual stain carry biology? Nuclear counts from virtual DNA match the real ones. Most interpretable features survive. Treated wells separate from controls with virtual features almost as well as with real ones, and much better than from brightfield texture alone, and the ranking of compound effects is preserved."
+  },
+  {
+    "title": "Label-free cytotoxicity on a second system",
+    "bullets": [
+      "OASIS Axiom U2OS: 150+ compounds, 8 doses, per-well MTT and LDH viability",
+      "Unseen compounds, compound-grouped cross-validation",
+      "Cytotoxic (MTT < 0.5) AUC: real stain <>, virtual stain <>, brightfield <>",
+      "Dose-response curves of nuclear count from virtual DNA follow measured viability"
+    ],
+    "image": "results/axiom/downstream/fig_toxicity.png",
+    "narration": "On a second public system, U2OS cells with biochemical viability measured for every well, label-free virtual-stain features predict cytotoxicity of unseen compounds with an area under the curve of <>, close to the real stain, and dose-response curves computed from virtual nuclei follow the measured viability."
+  },
+  {
+    "title": "Impact, limitations, next steps",
+    "bullets": [
+      "Every organ-chip becomes readable every day, non-destructively; fewer chips per study; earlier triage",
+      "Deployment recipe: acquire one paired plate, fine-tune for an hour, then image label-free",
+      "Limitations: one plate, five anonymised compounds, half resolution, aleatoric uncertainty only",
+      "Code, checkpoints and the exact data subset: github.com/datanomadhq/kaggle-ai4s-life-science"
+    ],
+    "narration": "Label-free virtual staining makes every organ chip readable every day, non-destructively, with an error bar. Limitations: a single plate, five anonymised compounds and half resolution. Code, checkpoints and the exact public data subset are on GitHub; one command reproduces every number in the report. Thank you."
+  }
+]
