@@ -21,15 +21,16 @@ ROOT = Path(__file__).resolve().parent
 PY = sys.executable
 
 # main model + baselines/ablations evaluated in the report (name -> extra train args)
-EXPERIMENTS = {
-    "unet": ["--model", "unet"],                                    # ours: U-Net + Laplace uncertainty head
-    "unet_nounc": ["--model", "unet_nounc"],                        # ablation: no uncertainty head (plain L1)
-    "unet_ssim": ["--model", "unet", "--ssim-weight", "0.5"],       # ablation: + SSIM term
-    "smallcnn": ["--model", "smallcnn"],                            # baseline: shallow CNN (25 px receptive field)
+EXPERIMENTS = {  # order = training order
+    "unet": ["--model", "unet"],                                    # ours: U-Net, L1 mean + Laplace scale head on detached residuals
     "linear": ["--model", "linear"],                                # baseline: per-pixel affine map
+    "smallcnn": ["--model", "smallcnn"],                            # baseline: shallow CNN (25 px receptive field)
+    "unet_nounc": ["--model", "unet_nounc"],                        # ablation: no uncertainty head (plain L1)
+    "unet_jointnll": ["--model", "unet", "--nll-mode", "joint"],    # ablation: classic joint heteroscedastic NLL
     "unet_frac25": ["--model", "unet", "--train-frac", "0.25"],     # ablation: 25% of training wells
     "unet_frac50": ["--model", "unet", "--train-frac", "0.5"],      # ablation: 50% of training wells
     "unet_fullres": ["--model", "unet"],                            # ablation: full resolution (0.59 um/px), npy override below
+    "unet_ssim": ["--model", "unet", "--ssim-weight", "0.5"],       # ablation: + SSIM term
 }
 NPY_OVERRIDE = {"unet_fullres": "npy"}  # experiment -> data/<dataset>/<dir> with differently preprocessed stacks
 DATASET_EXPERIMENTS = {"hepatopac": list(EXPERIMENTS), "axiom": ["unet", "linear"]}

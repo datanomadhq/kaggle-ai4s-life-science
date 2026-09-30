@@ -12,7 +12,7 @@
   "lr": 0.0003,
   "weight_decay": 0.0001,
   "ssim_weight": 0.0,
-  "no_nll": false,
+  "nll_mode": "detached",
   "train_frac": 1.0,
   "max_val_fields": 48,
   "workers": 3,

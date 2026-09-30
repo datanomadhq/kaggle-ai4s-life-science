@@ -58,11 +58,11 @@ Fields are stacked to $(6,H,W)$ uint16 arrays after $2\times2$ block averaging (
 \label{sec:method}
 
 \subsection{Model}
-A 2D U-Net (4 resolution levels, 32--512 channels, 7.8\,M parameters) maps the brightfield image to five output channels. We add a \emph{heteroscedastic} head: for each channel the network predicts a mean $\mu$ and a log-scale $\log b$ of a Laplace distribution and is trained with the negative log-likelihood
+A 2D U-Net (4 resolution levels, 32--512 channels, 7.8\,M parameters) maps the brightfield image to five output channels. We add a \emph{heteroscedastic} head: for each channel the network predicts a mean $\mu$ and a log-scale $\log b$ of a Laplace distribution. The classic joint negative log-likelihood $|y-\mu|/b+\log b$ \cite{kendall2017} lets the network lower its loss on hard pixels by inflating $b$ instead of improving $\mu$, which we observed as a decaying validation correlation on exactly the hardest channel (DNA). We therefore train the mean with plain L1 and the scale with the NLL of the \emph{detached} residual $r=|y-\mu|$,
 \begin{equation}
-\mathcal{L} = \frac{1}{N}\sum_{\text{pixels}} \left( \frac{|y-\mu|}{b} + \log b \right) \;+\; \lambda_{\text{SSIM}}\,(1-\text{SSIM}(\mu,y)),
+\mathcal{L} = \frac{1}{N}\sum_{\text{pixels}} \Big( |y-\mu| \;+\; \frac{\operatorname{sg}(r)}{b} + \log b \Big) \;+\; \lambda_{\text{SSIM}}\,(1-\text{SSIM}(\mu,y)),
 \end{equation}
-so that $b$ is a calibrated estimate of the expected absolute error and can be displayed as a trust map. Training uses random $256\times256$ crops with flips/rotations, AdamW (lr $3\cdot10^{-4}$, cosine schedule, 200 warm-up steps), batch 16, on Apple-Silicon MPS. Inference runs on full fields with 4-fold flip test-time augmentation (means and scales averaged).
+where $\operatorname{sg}$ is the stop-gradient. The mean is then trained exactly like a standard U-Net, and $b$ is the maximum-likelihood estimate of the expected absolute error given the input, which we display as a trust map and validate by calibration analysis. Joint NLL is kept as an ablation. Training uses random $256\times256$ crops with flips/rotations, AdamW (lr $3\cdot10^{-4}$, cosine schedule, 200 warm-up steps), batch 16, on Apple-Silicon MPS. Inference runs on full fields with 4-fold flip test-time augmentation (means and scales averaged).
 
 \subsection{Baselines and ablations}
 Per-pixel linear map (no context), a shallow CNN (25\,px receptive field, no down-sampling), the same U-Net trained with plain L1 (no uncertainty), with an added SSIM term, and with 25\,\% / 50\,\% of the training wells. All ablations use an identical compute budget (1,500 steps); the main model is trained for 5,000 steps and we also report it at the 1,500-step checkpoint for a like-for-like comparison.
@@ -87,10 +87,28 @@ Model & DNA & ER & RNA & AGP & Mito & mean $r$ & mean SSIM & params (M) \\
 \end{tabular}
 \end{table}
 
+\newcommand{\figif}[3]{\IfFileExists{#1}{\begin{figure}[H]\centering\includegraphics[width=#2\linewidth]{#1}\caption{#3}\end{figure}}{\todo{figure pending}}}
+
+\figif{../../results/hepatopac/figures/fig_examples.png}{1.0}{Virtual staining of three held-out HepatoPAC fields (best, median and worst by mean Pearson $r$). Rows: brightfield input and real channels; below, the predicted uncertainty (mean Laplace scale, brighter = less certain) and the virtual channels with their field-level correlation. Centre $400\times400$ px crops at 1.19\,$\mu$m/px.}
+\figif{../../results/hepatopac/figures/fig_channels.png}{0.85}{Per-channel Pearson correlation on the test wells for all models (mean over fields, error bars: 95\,\% CI over wells).}
+
 \subsection{Uncertainty calibration}
+\figif{../../results/hepatopac/figures/fig_calibration.png}{0.9}{Uncertainty quality on the test wells. Left: Spearman correlation between the predicted scale and the absolute error per pixel. Right: area under the sparsification error curve (AUSE; 0 = the predicted uncertainty orders pixels exactly like the true error).}
+\figif{../../results/hepatopac/figures/fig_calibration_fields.png}{1.0}{Field-level calibration: mean predicted scale vs.\ measured MAE of each test field, per channel.}
+
 \subsection{Biological fidelity}
+\figif{../../results/hepatopac/figures/fig_downstream.png}{1.0}{Downstream fidelity on held-out wells. Left: nuclei per field segmented from the real vs.\ the virtual DNA channel. Middle: correlation across fields between each morphological feature computed from the real and from the virtual stain. Right: per-well compound effect magnitude (mean $|z|$ vs.\ control fields) from real vs.\ virtual profiles.}
+\todo{table: nuclei count r, object F1, median feature fidelity, Mantel, effect Spearman, treated-vs-control AUC (real / virtual / brightfield), compound-id accuracy.}
+
 \subsection{Cytotoxicity prediction (Axiom U2OS)}
-\subsection{Ablations}
+\figif{../../results/axiom/downstream/fig_toxicity.png}{1.0}{Label-free cytotoxicity on unseen compounds (Axiom U2OS test wells, compound-grouped 5-fold CV, gradient-boosted trees on well-level features). Predicted vs.\ measured MTT viability using real Cell Painting features, virtual (brightfield-derived) features, and brightfield texture only.}
+\figif{../../results/axiom/downstream/fig_dose_response.png}{1.0}{Dose-response curves for the compounds with the widest viability range: measured MTT and relative nuclear counts from the real and the virtual DNA channel.}
+\todo{table: AUC/AP cytotoxic, Spearman MTT for real / virtual / brightfield; transfer results.}
+
+\subsection{Ablations and transfer}
+\figif{../../results/hepatopac/figures/fig_trainsize.png}{0.55}{Test Pearson $r$ per channel vs.\ the fraction of training wells (1,500-step budget).}
+\figif{../../results/hepatopac/figures/fig_training.png}{0.9}{Training curves (train L1 and validation mean Pearson $r$) of all HepatoPAC experiments.}
+\todo{resolution ablation (unet\_fullres), zero-shot transfer HepatoPAC $\leftrightarrow$ Axiom.}
 
 \section{Reliability analysis and limitations}
 \label{sec:limitations}

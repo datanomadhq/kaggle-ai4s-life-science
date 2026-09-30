@@ -120,11 +120,23 @@ def ssim(x: torch.Tensor, y: torch.Tensor, window_size: int = 11, data_range: fl
 
 
 def translation_loss(mu: torch.Tensor, logb: torch.Tensor | None, y: torch.Tensor,
-                     ssim_weight: float = 0.0, nll: bool = True) -> tuple[torch.Tensor, dict]:
+                     ssim_weight: float = 0.0, nll: bool | str = "detached") -> tuple[torch.Tensor, dict]:
+    """L1 / Laplace-NLL translation loss.
+
+    nll="detached" (default): the mean is trained with plain L1 and the scale head with the Laplace NLL of the
+    *detached* residuals, so the uncertainty head can never trade accuracy for a large predicted scale (the
+    pitfall of joint heteroscedastic training, Seitzer et al. 2022). nll="joint": classic joint NLL
+    |y-mu|/b + log b (Kendall & Gal 2017). nll=False/"none": plain L1 (scale head, if any, untrained).
+    """
+    if nll is True:
+        nll = "joint"
     err = (mu - y).abs()
-    if logb is not None and nll:
+    if logb is not None and nll == "joint":
         b = torch.exp(logb)
         base = (err / b + logb).mean()
+    elif logb is not None and nll == "detached":
+        b = torch.exp(logb)
+        base = err.mean() + (err.detach() / b + logb).mean()
     else:
         base = err.mean()
     parts = {"l1": err.mean().item(), "base": base.item()}

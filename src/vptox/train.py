@@ -50,7 +50,7 @@ def subset_wells(m: pd.DataFrame, frac: float, seed: int) -> pd.DataFrame:
 
 
 @torch.no_grad()
-def evaluate(model, loader, device, ssim_weight: float, nll: bool) -> dict:
+def evaluate(model, loader, device, ssim_weight: float, nll: str) -> dict:
     model.eval()
     losses, pcc = [], {c: [] for c in CHANNELS}
     for x, y, _ in loader:
@@ -90,7 +90,8 @@ def main(argv=None):
     ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--weight-decay", type=float, default=1e-4)
     ap.add_argument("--ssim-weight", type=float, default=0.0)
-    ap.add_argument("--no-nll", action="store_true", help="train the uncertainty model with plain L1 (ablation)")
+    ap.add_argument("--nll-mode", default="detached", choices=["detached", "joint", "none"],
+                    help="uncertainty training: L1 mean + NLL on detached residuals (default), joint Laplace NLL, or plain L1")
     ap.add_argument("--train-frac", type=float, default=1.0, help="fraction of training wells to use (ablation)")
     ap.add_argument("--max-val-fields", type=int, default=48)
     ap.add_argument("--workers", type=int, default=3)
@@ -129,7 +130,7 @@ def main(argv=None):
     warm = min(200, a.steps // 10)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda s: min(1.0, (s + 1) / warm) * 0.5 * (1 + math.cos(math.pi * min(1.0, s / max(1, a.steps)))))
-    nll = not a.no_nll
+    nll = a.nll_mode
 
     best, t0, step = -1.0, time.time(), 0
     tl, tp = [], []
