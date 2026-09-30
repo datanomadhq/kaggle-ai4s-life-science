@@ -29,7 +29,9 @@ EXPERIMENTS = {
     "linear": ["--model", "linear"],                                # baseline: per-pixel affine map
     "unet_frac25": ["--model", "unet", "--train-frac", "0.25"],     # ablation: 25% of training wells
     "unet_frac50": ["--model", "unet", "--train-frac", "0.5"],      # ablation: 50% of training wells
+    "unet_fullres": ["--model", "unet"],                            # ablation: full resolution (0.59 um/px), npy override below
 }
+NPY_OVERRIDE = {"unet_fullres": "npy"}  # experiment -> data/<dataset>/<dir> with differently preprocessed stacks
 DATASET_EXPERIMENTS = {"hepatopac": list(EXPERIMENTS), "axiom": ["unet", "linear"]}
 QUICK_EXPERIMENTS = ["unet", "linear"]
 
@@ -100,7 +102,10 @@ def main():
             n_steps = steps if name == "unet" else ablation_steps
             if name == "linear":
                 n_steps = min(n_steps, 500)
-            cmd = [PY, "-m", "vptox.train", "--manifest", manifest, "--npy-dir", npy, "--out-dir", out,
+            npy_e = data / NPY_OVERRIDE[name] if name in NPY_OVERRIDE else npy
+            if name in NPY_OVERRIDE and not (npy_e / "stats.json").exists():
+                run([PY, "-m", "vptox.preprocess", "--manifest", manifest, "--image-dir", img, "--out-dir", npy_e, "--downsample", "1"])
+            cmd = [PY, "-m", "vptox.train", "--manifest", manifest, "--npy-dir", npy_e, "--out-dir", out,
                    "--steps", n_steps] + EXPERIMENTS[name]
             if a.quick:
                 cmd += ["--val-every", "20", "--max-val-fields", "8", "--batch", "8"]
@@ -112,8 +117,9 @@ def main():
                 continue
             if (out / "summary_test.json").exists() and not a.force:
                 continue
+            npy_e = data / NPY_OVERRIDE[name] if name in NPY_OVERRIDE else npy
             cmd = [PY, "-m", "vptox.predict", "--checkpoint", out / "best.pt", "--manifest", manifest,
-                   "--npy-dir", npy, "--out-dir", out, "--split", "test"]
+                   "--npy-dir", npy_e, "--out-dir", out, "--split", "test"]
             if name == "unet":
                 cmd += ["--save-pred"]
             run(cmd)

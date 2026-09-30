@@ -26,7 +26,13 @@
 \label{sec:problem}
 
 \paragraph{Why it matters.}
-\todo{Impact: DILI is the leading cause of drug attrition and withdrawal; MPS/organ-chips are being adopted (FDA Modernization Act 2.0, 3Rs); Cell Painting is a rich but terminal endpoint; brightfield is free, non-toxic and repeatable; label-free readouts enable longitudinal monitoring of the same expensive chip, reduce dye costs and phototoxicity, and free fluorescence channels for other markers.}
+Drug-induced liver injury (DILI) is the most frequent single cause of post-marketing drug withdrawal and a major reason for late-stage attrition, and animal models predict human hepatotoxicity poorly. Human-relevant \emph{in vitro} systems of increasing complexity---from cell lines to primary hepatocytes to micropatterned co-cultures, spheroids and liver-on-chip devices---are therefore being adopted for safety assessment, encouraged by the 3Rs principle and, in the United States, by the FDA Modernization Act 2.0 which removed the animal-testing mandate for investigational drugs. Their richest imaging readout is Cell Painting \cite{bray2016}: five fluorescent dyes label the nucleus, endoplasmic reticulum, nucleoli/RNA, actin/Golgi/plasma membrane and mitochondria, and thousands of morphological features detect bioactivity and cytotoxicity, often at lower concentrations than biochemical viability assays \cite{ewald2025}. But the stain is \emph{terminal}: cells are fixed and permeabilised, so a microphysiological system (MPS) that costs hundreds of dollars and is cultured for weeks can be read out exactly once, at one time point, and the fluorescence channels are consumed by the dyes. Brightfield images, in contrast, are acquired on every imager, are free, phototoxicity-free and can be repeated hourly on the same living tissue.
+
+\paragraph{What a label-free virtual stain enables.}
+(i) Longitudinal, non-destructive monitoring of the same chip or well (kinetics of toxicity, recovery, reversibility) instead of one endpoint; (ii) a Cell-Painting-like readout for experiments that cannot afford the dye panel, the extra imaging time or the fixation step; (iii) freeing the fluorescence channels for reporters and antibodies while retaining the morphology profile; (iv) quality control and pre-screening: a cheap brightfield pass flags cytotoxic wells before expensive assays. A virtual stain is only useful, however, if the user knows \emph{where} it is reliable and if the readouts computed from it recover the same biology as the real stain. Both questions are the core of this work.
+
+\paragraph{Sponsor relevance.}
+The challenge sponsor develops neural organ-on-chip platforms and aims at ``AI-driven organ-on-a-chip digital twins''. Label-free virtual staining is a building block for such twins: it turns the cheapest, most frequent observation of a chip into a structured, quantitative state description. The method is system-agnostic (we show it on a liver MPS and a cancer cell line and report zero-shot transfer between them) and the training recipe transfers to any brightfield/fluorescence paired data set that a chip laboratory already acquires for validation.
 
 \paragraph{Task.}
 Given a brightfield image $x$ of a field of view, predict the five Cell Painting fluorescence channels $y \in \mathbb{R}^{5\times H\times W}$ and a per-pixel scale $b$ quantifying the expected error, such that downstream toxicological readouts computed from $\hat y$ match those computed from $y$.
@@ -40,13 +46,13 @@ Given a brightfield image $x$ of a field of view, predict the five Cell Painting
 All data are public, released under CC0 1.0 by the Cell Painting Gallery \cite{weisbart2024} on the AWS Registry of Open Data (bucket \texttt{cellpainting-gallery}); no credentials, paid services or private data are used. No human-subject, clinical or personal data are involved: the biological material is commercially available primary hepatocyte co-culture (HepatoPAC, BioIVT) and the U2OS cell line.
 
 \subsection{OASIS HepatoPAC liver MPS (primary dataset)}
-The OASIS Consortium (HESI and the Broad Institute) \cite{oasis2025} profiles a reference set of $\sim$1,500 compounds with public in-vivo hepatotoxicity data across cell systems of increasing physiological relevance. Its \texttt{hepatopac} partition (batch \texttt{2026\_04\_13\_OASIS\_HepatoPAC\_Batch1}) images a micropatterned co-culture of primary human hepatocyte islands and 3T3-J2 stromal cells, a liver MPS used industrially for drug-induced liver injury (DILI) assessment. Acquisition: PerkinElmer Opera Phenix, 20$\times$ (NA 1.0), 2$\times$2 binning, $1080\times1080$ pixels at 0.593\,\textmu m/px, six channels: brightfield and the five Cell Painting dyes (Hoechst/DNA, concanavalin~A/ER, SYTO~14/RNA, WGA+phalloidin/AGP, MitoTracker/Mito). The ``Islands'' scan covers 48 wells $\times$ 49 fields = 2,352 fields (14,112 TIFFs, 33\,GB). The platemap lists five anonymised compounds (1--5) at two concentrations (low/high), each in four wells, and eight vehicle (negative-control) wells.
+The OASIS Consortium (HESI and the Broad Institute) \cite{oasis2025} profiles a reference set of $\sim$1,500 compounds with public in-vivo hepatotoxicity data across cell systems of increasing physiological relevance. Its \texttt{hepatopac} partition (batch \texttt{2026\_04\_13\_OASIS\_HepatoPAC\_Batch1}) images a micropatterned co-culture of primary human hepatocyte islands and 3T3-J2 stromal cells, a liver MPS used industrially for drug-induced liver injury (DILI) assessment. Acquisition: PerkinElmer Opera Phenix, 20$\times$ (NA 1.0), 2$\times$2 binning, $1080\times1080$ pixels at 0.593\,$\mu$m/px, six channels: brightfield and the five Cell Painting dyes (Hoechst/DNA, concanavalin~A/ER, SYTO~14/RNA, WGA+phalloidin/AGP, MitoTracker/Mito). The ``Islands'' scan covers 48 wells $\times$ 49 fields = 2,352 fields (14,112 TIFFs, 33\,GB). The platemap lists five anonymised compounds (1--5) at two concentrations (low/high), each in four wells, and eight vehicle (negative-control) wells.
 
 \subsection{OASIS Axiom U2OS with biochemical cytotoxicity}
-\todo{describe subset: 50 compounds with full 8-point dose series (0.046--100 \textmu M) in batch prod\_25 + all wells with MTT $<$ 0.7 + 96 DMSO wells; one central field per well; 2160$\times$2160 at 0.3 \textmu m/px, 4$\times$ block-averaged to match the HepatoPAC pixel size; per-well MTT and LDH from \texttt{biochem.parquet}.}
+\todo{describe subset: 50 compounds with full 8-point dose series (0.046--100 \textmu M) in batch prod\_25 + all wells with MTT $<$ 0.7 + 96 DMSO wells; one central field per well; 2160$\times$2160 at 0.3 $\mu$m/px, 4$\times$ block-averaged to match the HepatoPAC pixel size; per-well MTT and LDH from \texttt{biochem.parquet}.}
 
 \subsection{Processing}
-Fields are stacked to $(6,H,W)$ uint16 arrays after $2\times2$ block averaging (1.19\,\textmu m/px), which quarters compute while keeping nuclei at $\sim$8--12\,px. Brightfield inputs are standardised per image (median / IQR); fluorescence targets are scaled per channel by the 0.5th/99.8th percentiles of training pixels. \textbf{Splits are by well}: 29 training, 7 validation and 12 test wells, stratified by treatment group (every compound/dose and two controls appear in the test set), so no field of a test well is ever seen during training or model selection.
+Fields are stacked to $(6,H,W)$ uint16 arrays after $2\times2$ block averaging (1.19\,$\mu$m/px), which quarters compute while keeping nuclei at $\sim$8--12\,px. Brightfield inputs are standardised per image (median / IQR); fluorescence targets are scaled per channel by the 0.5th/99.8th percentiles of training pixels. \textbf{Splits are by well}: 29 training, 7 validation and 12 test wells, stratified by treatment group (every compound/dose and two controls appear in the test set), so no field of a test well is ever seen during training or model selection.
 
 \section{Method}
 \label{sec:method}
@@ -72,7 +78,13 @@ The same label-free pipeline is run on real and virtual channels: (1) Hoechst nu
 \begin{table}[H]
 \centering\small
 \caption{Test-set Pearson correlation per channel (mean over 588 fields of 12 held-out wells, $\pm$ 95\% CI over wells).}
-\input{../../results/hepatopac/figures/results_table.tex}
+\begin{tabular}{lcccccccc}
+\toprule
+Model & DNA & ER & RNA & AGP & Mito & mean $r$ & mean SSIM & params (M) \\
+\midrule
+\IfFileExists{../../results/hepatopac/figures/results_table.tex}{\input{../../results/hepatopac/figures/results_table.tex}}{pending & & & & & & & \\}
+\bottomrule
+\end{tabular}
 \end{table}
 
 \subsection{Uncertainty calibration}
@@ -81,11 +93,32 @@ The same label-free pipeline is run on real and virtual channels: (1) Hoechst nu
 \subsection{Ablations}
 
 \section{Reliability analysis and limitations}
-\todo{single batch/plate; 5 anonymised compounds; half resolution; 2D; classical segmentation; uncertainty is aleatoric only; domain shift across systems; not a replacement for regulatory endpoints.}
+\label{sec:limitations}
+\begin{itemize}
+\item \textbf{One plate, five anonymised compounds.} The HepatoPAC batch is a single 48-well plate (pre-scan of a larger OASIS campaign); compound identities are anonymised by the data provider. Our well-level split guards against field-level leakage but not against plate-level effects; all treatment-effect conclusions are therefore about \emph{within-plate} biology and need confirmation on further batches as OASIS releases them.
+\item \textbf{Resolution and dimensionality.} Models are trained at 1.19\,$\mu$m/px (2$\times$2 block average) and in 2D, on a single brightfield plane. Thick hepatocyte islands are partly out of focus in both modalities; fine sub-cellular texture (e.g.\ mitochondrial networks) is beyond what the input carries, which the per-channel results and the uncertainty maps make explicit.
+\item \textbf{Uncertainty is aleatoric.} The Laplace head estimates the irreducible error given the input, not model (epistemic) uncertainty; out-of-distribution inputs (a different cell system, magnification or imager) can be confidently wrong. We quantify this with the cross-system zero-shot transfer experiment and recommend fine-tuning on a small paired set for any new system.
+\item \textbf{Downstream pipeline.} We use a classical nuclear segmentation and 49 hand-designed features so that every number is interpretable and dependency-free; a CellProfiler or deep-feature pipeline would give richer profiles. Conclusions about treated-vs-control separation rest on 12 (HepatoPAC) and 227 (Axiom) held-out wells.
+\item \textbf{Not a regulatory endpoint.} Virtual stains are a monitoring and pre-screening tool; decisions still require the real assay. We report calibration so that users can gate on uncertainty.
+\end{itemize}
 
 \section{Impact}
+\label{sec:impact}
+\todo{summarise: cost per plate, time, longitudinal designs, 3Rs, digital twins; who uses it (MPS labs, CROs, tox groups); path to deployment (fine-tune on 1 paired plate).}
+
 \section{Reproduction}
+\label{sec:reproduction}
+All code is at \url{https://github.com/datanomadhq/kaggle-ai4s-life-science} (MIT). \texttt{python run\_all.py --quick} runs every stage on a small subset in about 20 minutes on a laptop; \texttt{python run\_all.py} downloads the 33\,GB HepatoPAC data over plain HTTPS (no account) and reproduces every table and figure; \texttt{python run\_all.py --dataset axiom} does the same for the U2OS subset. Trained checkpoints (31\,MB each) are attached to the GitHub release so that \texttt{--stage eval,downstream,figures} regenerates all numbers without training. The exact well-level splits are committed (\texttt{meta/}). Environment: Python 3.12, pinned \texttt{requirements.txt}; PyTorch on Apple-Silicon MPS, CUDA or CPU. Training compute: 5,000 steps of batch 16 (2.4\,s/step on a shared M-series GPU, $\approx$3.5\,h) for the main model, 1,500 steps for each ablation.
+
 \section{Third-party resources and licences}
+\label{sec:licences}
+\begin{itemize}
+\item \textbf{Data:} Cell Painting Gallery \cite{weisbart2024}, datasets \texttt{cpg0037-oasis} (OASIS Consortium \cite{oasis2025}: HepatoPAC partition contributed by the Broad Institute imaging platform; Axiom partition by Axiom Bio), CC0 1.0, hosted by the AWS Open Data Sponsorship Program. We thank the OASIS Consortium, the Broad Institute Imaging Platform and AWS.
+\item \textbf{Software (all OSI licences):} PyTorch (BSD), NumPy, SciPy, pandas, scikit-image, scikit-learn (BSD), tifffile/imagecodecs (BSD), matplotlib (PSF-based), tqdm (MIT/MPL), ffmpeg (LGPL/GPL, video only), macOS \texttt{say} (narration only).
+\item \textbf{Models:} no pretrained weights are used; all networks are trained from scratch in this repository.
+\item \textbf{AI assistance:} code, analysis and text were produced with the help of an AI coding assistant (Claude); all results were generated by the released code on the public data and verified by the team.
+\item \textbf{Prior work:} the method builds on published in-silico labelling \cite{christiansen2018,ounkomol2018,crosszamirski2022} and heteroscedastic regression \cite{kendall2017}; no prior work of the team is reused.
+\end{itemize}
 \begin{thebibliography}{9}
 \bibitem{weisbart2024} E.~Weisbart et al. Cell Painting Gallery: an open resource for image-based profiling. \emph{Nature Methods} 21, 1775--1777 (2024).
 \bibitem{oasis2025} D.~Rouqui\'e, A.~Bender, J.~Cheah, C.~E.~Crute, D.~Dalmas, J.~Ewald, A.~Fullerton, J.~A.~Harrill, S.~Kadri, N.~Kleinstreuer, N.~Kramer, J.~LaRocca, C.~A.~Mitchell, S.~Seal, S.~Singh, A.~E.~Carpenter. The OASIS Consortium: integrating multi-omics technologies to transform chemical safety assessment. \emph{Toxicological Sciences} 208(2), 225--232 (2025). doi:10.1093/toxsci/kfaf128.
