@@ -28,7 +28,7 @@ def main(argv=None):
     ap.add_argument("--val-frac", type=float, default=0.15)
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args(argv)
-    s = pd.read_csv(a.selection)
+    s = pd.read_csv(a.selection).drop_duplicates("field_id")
     m = pd.DataFrame({
         "field_id": s.field_id, "plate": s.Metadata_Plate, "well": s.Metadata_Plate.str.replace("plate_", "p") + "_" + s.Metadata_Well,
         "site": s.Metadata_Site.astype(int), "compound": s.compound_name, "oasis_id": s.OASIS_ID,

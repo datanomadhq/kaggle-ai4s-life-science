@@ -70,7 +70,7 @@ def main(argv=None):
     fields["field_id"] = fields.Metadata_Plate.str.replace("plate_", "p") + "_" + fields.Metadata_Well + "_s" + fields.Metadata_Site.astype(int).astype(str).str.zfill(2)
     keep = ["field_id", "Metadata_Plate", "Metadata_Well", "Metadata_Site", "compound_name", "OASIS_ID", "compound_concentration_um",
             "mtt_normalized", "ldh_normalized", "compound_target", "compound_smiles"] + URL_COLS
-    fields = fields[keep].sort_values("field_id").reset_index(drop=True)
+    fields = fields[keep].drop_duplicates("field_id").sort_values("field_id").reset_index(drop=True)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     fields.to_csv(out / "selection.csv", index=False)
