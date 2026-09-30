@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 """VirtualPaint-Tox entry script: download -> manifest -> preprocess -> train -> evaluate -> downstream -> figures.
 
-    python run_all.py --quick     # ~20 min smoke test on a small subset (6 wells x 8 fields), 2 epochs
-    python run_all.py             # full reproduction of the report (HepatoPAC Islands, ~33 GB download)
-    python run_all.py --stage eval   # re-run a single stage on existing artefacts
+    python run_all.py --quick                 # ~20 min smoke test on a small HepatoPAC subset (6 wells x 8 fields)
+    python run_all.py                         # full HepatoPAC reproduction (33 GB download, 7 models)
+    python run_all.py --dataset axiom         # Axiom U2OS subset with MTT/LDH cytotoxicity (34 GB download)
+    python run_all.py --stage eval,figures    # re-run late stages on existing artefacts
 
-Stages: download, manifest, preprocess, train, eval, downstream, figures. Each stage is skipped when its
-outputs already exist unless --force is given. All results are written under results/ (quick: results_quick/).
+Stages: download, manifest, preprocess, train, eval, downstream, figures (dataset-specific stages are skipped
+where they do not apply). A stage is skipped when its outputs exist unless --force is given. Results go to
+results/<dataset>/ (quick: results_quick/).
 """
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import sys
 from pathlib import Path
@@ -29,6 +30,7 @@ EXPERIMENTS = {
     "unet_frac25": ["--model", "unet", "--train-frac", "0.25"],     # ablation: 25% of training wells
     "unet_frac50": ["--model", "unet", "--train-frac", "0.5"],      # ablation: 50% of training wells
 }
+DATASET_EXPERIMENTS = {"hepatopac": list(EXPERIMENTS), "axiom": ["unet", "linear"]}
 QUICK_EXPERIMENTS = ["unet", "linear"]
 
 
@@ -39,6 +41,7 @@ def run(cmd: list[str]):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--dataset", default="hepatopac", choices=["hepatopac", "axiom"])
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--stage", default="all")
     ap.add_argument("--force", action="store_true")
@@ -47,29 +50,47 @@ def main():
     ap.add_argument("--experiments", default="", help="comma-separated subset of experiments to train")
     a = ap.parse_args()
 
-    data = ROOT / "data" / "hepatopac"
-    img = data / "islands"
-    res = ROOT / ("results_quick" if a.quick else "results") / "hepatopac"
-    manifest = (res / "manifest.csv") if a.quick else (data / "manifest.csv")
-    npy = data / ("npy_quick" if a.quick else "npy_ds2")
-    steps = a.steps or (40 if a.quick else 5000)
-    ablation_steps = a.ablation_steps or (40 if a.quick else 1500)
+    data = ROOT / "data" / a.dataset
+    res = ROOT / ("results_quick" if a.quick else "results") / a.dataset
     stages = ["download", "manifest", "preprocess", "train", "eval", "downstream", "figures"] if a.stage == "all" else a.stage.split(",")
-    exps = a.experiments.split(",") if a.experiments else (QUICK_EXPERIMENTS if a.quick else list(EXPERIMENTS))
-    quick_wells = "A01,B02,C03,E01,G03,H06"
-    quick_sites = ",".join(str(s) for s in range(1, 9))
+    exps = a.experiments.split(",") if a.experiments else (QUICK_EXPERIMENTS if a.quick else DATASET_EXPERIMENTS[a.dataset])
+    steps = a.steps or (40 if a.quick else (5000 if a.dataset == "hepatopac" else 3000))
+    ablation_steps = a.ablation_steps or (40 if a.quick else 1500)
 
-    if "download" in stages:
-        cmd = [PY, "-m", "vptox.download", "--dataset", "hepatopac_islands", "--out", img]
-        if a.quick:
-            cmd += ["--wells", quick_wells, "--sites", quick_sites]
-        run(cmd)
-    if "manifest" in stages and (a.force or not manifest.exists()):
-        run([PY, "-m", "vptox.manifest", "--load-data", data / "meta" / "hepatopac_islands_load_data.csv",
-             "--platemap", data / "meta" / "platemap.txt", "--image-dir", img, "--out", manifest])
+    if a.dataset == "hepatopac":
+        img = data / "islands"
+        manifest = (res / "manifest.csv") if a.quick else (data / "manifest.csv")
+        npy = data / ("npy_quick" if a.quick else "npy_ds2")
+        quick_wells, quick_sites = "A01,B02,C03,E01,G03,H06", ",".join(str(s) for s in range(1, 9))
+        if "download" in stages:
+            cmd = [PY, "-m", "vptox.download", "--dataset", "hepatopac_islands", "--out", img]
+            if a.quick:
+                cmd += ["--wells", quick_wells, "--sites", quick_sites]
+            run(cmd)
+        if "manifest" in stages and (a.force or not manifest.exists()):
+            run([PY, "-m", "vptox.manifest", "--load-data", data / "meta" / "hepatopac_islands_load_data.csv",
+                 "--platemap", data / "meta" / "platemap.txt", "--image-dir", img, "--out", manifest])
+        downsample = "2"
+    else:  # axiom
+        img = data / "images"
+        manifest = data / "manifest.csv"
+        npy = data / "npy_ds4"
+        if "download" in stages:
+            if not (data / "selection.csv").exists():
+                # metadata (load_data.csv + biochem/metadata parquet) for batch prod_25, then the well selection
+                run(["aws", "s3", "cp", "--no-sign-request", "--quiet", "--recursive", "--exclude", "*", "--include", "*/load_data.csv",
+                     "s3://cellpainting-gallery/cpg0037-oasis/axiom/workspace/load_data_csv/prod_25/", data / "meta" / "load_data_prod_25/"])
+                run(["aws", "s3", "cp", "--no-sign-request", "--quiet", "--recursive", "--exclude", "*", "--include", "*.parquet",
+                     "s3://cellpainting-gallery/cpg0037-oasis/axiom/workspace/metadata/prod_25/", data / "meta" / "metadata_prod_25/"])
+                run([PY, "-m", "vptox.axiom_select", "--meta-dir", data / "meta", "--batch", "prod_25", "--out", data])
+            run([PY, "-m", "vptox.download", "--keys-file", data / "keys.txt", "--out", img, "--workers", "8"])
+        if "manifest" in stages and (a.force or not manifest.exists()):
+            run([PY, "-m", "vptox.axiom_manifest", "--selection", data / "selection.csv", "--image-dir", img, "--out", manifest])
+        downsample = "4"
+
     if "preprocess" in stages and (a.force or not (npy / "stats.json").exists()):
         run([PY, "-m", "vptox.preprocess", "--manifest", manifest, "--image-dir", img, "--out-dir", npy,
-             "--downsample", "2", "--stats-sample", "40" if a.quick else "200"])
+             "--downsample", downsample, "--stats-sample", "40" if a.quick else "200"])
     if "train" in stages:
         for name in exps:
             out = res / name
@@ -96,9 +117,19 @@ def main():
             if name == "unet":
                 cmd += ["--save-pred"]
             run(cmd)
+        # cross-system zero-shot transfer: the other dataset's model applied to this test set
+        other = "axiom" if a.dataset == "hepatopac" else "hepatopac"
+        ck = ROOT / ("results_quick" if a.quick else "results") / other / "unet" / "best.pt"
+        if ck.exists() and (a.force or not (res / f"transfer_from_{other}" / "summary_test.json").exists()):
+            run([PY, "-m", "vptox.predict", "--checkpoint", ck, "--manifest", manifest, "--npy-dir", npy,
+                 "--out-dir", res / f"transfer_from_{other}", "--split", "test"])
     if "downstream" in stages:
-        run([PY, "-m", "vptox.downstream", "--manifest", manifest, "--npy-dir", npy, "--pred-dir", res / "unet" / "pred",
-             "--out-dir", res / "downstream"] + (["--quick"] if a.quick else []))
+        if a.dataset == "hepatopac":
+            run([PY, "-m", "vptox.downstream", "--manifest", manifest, "--npy-dir", npy, "--pred-dir", res / "unet" / "pred",
+                 "--out-dir", res / "downstream"] + (["--quick"] if a.quick else []))
+        else:
+            run([PY, "-m", "vptox.toxicity", "--manifest", manifest, "--npy-dir", npy, "--pred-dir", res / "unet" / "pred",
+                 "--out-dir", res / "downstream"])
     if "figures" in stages:
         run([PY, "-m", "vptox.figures", "--results", res, "--manifest", manifest, "--npy-dir", npy,
              "--out-dir", res / "figures"])

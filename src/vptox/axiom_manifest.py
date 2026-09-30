@@ -52,7 +52,7 @@ def main(argv=None):
     m["split"] = m.compound.map(split)
     m["fold"] = m.compound.map(fold)
     ctrl = m.compound == "control"
-    wells = m.loc[ctrl, "well"].unique()
+    wells = list(m.loc[ctrl, "well"].unique())
     rng.shuffle(wells)
     ctrl_split = {w: ("test" if i < int(round(a.test_frac * len(wells))) else "val" if i < int(round((a.test_frac + a.val_frac) * len(wells))) else "train")
                   for i, w in enumerate(wells)}
