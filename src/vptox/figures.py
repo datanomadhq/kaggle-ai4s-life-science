@@ -175,11 +175,11 @@ def fig_training(res: Path, out: Path):
         if not p.exists():
             continue
         log = pd.read_csv(p)
-        axes[0].plot(log.epoch, log.train_l1, label=LABELS[e])
-        axes[1].plot(log.epoch, log.val_pcc_mean, label=LABELS[e])
-    axes[0].set_xlabel("epoch")
+        axes[0].plot(log.step, log.train_l1, label=LABELS[e])
+        axes[1].plot(log.step, log.val_pcc_mean, label=LABELS[e])
+    axes[0].set_xlabel("optimizer step")
     axes[0].set_ylabel("train L1")
-    axes[1].set_xlabel("epoch")
+    axes[1].set_xlabel("optimizer step")
     axes[1].set_ylabel("val mean Pearson")
     axes[1].legend(fontsize=7)
     for ax in axes:

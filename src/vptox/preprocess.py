@@ -21,11 +21,19 @@ from . import CHANNELS, INPUT
 ORDER = [INPUT] + CHANNELS
 
 
-def stack_field(row: pd.Series, image_dir: Path, out_dir: Path) -> Path:
+def downsample(a: np.ndarray, f: int) -> np.ndarray:
+    """f x f block averaging (keeps uint16)."""
+    if f == 1:
+        return a
+    H, W = (a.shape[0] // f) * f, (a.shape[1] // f) * f
+    return a[:H, :W].reshape(H // f, f, W // f, f).mean(axis=(1, 3)).astype(np.uint16)
+
+
+def stack_field(row: pd.Series, image_dir: Path, out_dir: Path, ds: int = 1) -> Path:
     out = out_dir / f"{row['field_id']}.npy"
     if out.exists():
         return out
-    imgs = [tifffile.imread(image_dir / row[f"file_{c}"]) for c in ORDER]
+    imgs = [downsample(tifffile.imread(image_dir / row[f"file_{c}"]), ds) for c in ORDER]
     arr = np.stack(imgs).astype(np.uint16)
     np.save(out, arr)
     return out
@@ -57,13 +65,15 @@ def main():
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--stats-sample", type=int, default=200)
+    ap.add_argument("--downsample", type=int, default=1, help="block-average factor (2 halves the resolution)")
     a = ap.parse_args()
     m = pd.read_csv(a.manifest)
     image_dir, out_dir = Path(a.image_dir), Path(a.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(a.workers) as ex:
-        list(tqdm(ex.map(lambda r: stack_field(r[1], image_dir, out_dir), m.iterrows()), total=len(m), desc="stack"))
+        list(tqdm(ex.map(lambda r: stack_field(r[1], image_dir, out_dir, a.downsample), m.iterrows()), total=len(m), desc="stack"))
     stats = compute_stats(m, out_dir, n_sample=a.stats_sample)
+    stats["_downsample"] = a.downsample
     (out_dir / "stats.json").write_text(json.dumps(stats, indent=2))
     print(json.dumps(stats, indent=2))
 

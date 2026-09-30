@@ -42,7 +42,8 @@ def main():
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--stage", default="all")
     ap.add_argument("--force", action="store_true")
-    ap.add_argument("--epochs", type=int, default=None)
+    ap.add_argument("--steps", type=int, default=None, help="optimizer steps for the main model (ablations get --ablation-steps)")
+    ap.add_argument("--ablation-steps", type=int, default=None)
     ap.add_argument("--experiments", default="", help="comma-separated subset of experiments to train")
     a = ap.parse_args()
 
@@ -50,8 +51,9 @@ def main():
     img = data / "islands"
     res = ROOT / ("results_quick" if a.quick else "results") / "hepatopac"
     manifest = (res / "manifest.csv") if a.quick else (data / "manifest.csv")
-    npy = data / ("npy_quick" if a.quick else "npy")
-    epochs = a.epochs or (2 if a.quick else 30)
+    npy = data / ("npy_quick" if a.quick else "npy_ds2")
+    steps = a.steps or (40 if a.quick else 5000)
+    ablation_steps = a.ablation_steps or (40 if a.quick else 1500)
     stages = ["download", "manifest", "preprocess", "train", "eval", "downstream", "figures"] if a.stage == "all" else a.stage.split(",")
     exps = a.experiments.split(",") if a.experiments else (QUICK_EXPERIMENTS if a.quick else list(EXPERIMENTS))
     quick_wells = "A01,B02,C03,E01,G03,H06"
@@ -67,17 +69,20 @@ def main():
              "--platemap", data / "meta" / "platemap.txt", "--image-dir", img, "--out", manifest])
     if "preprocess" in stages and (a.force or not (npy / "stats.json").exists()):
         run([PY, "-m", "vptox.preprocess", "--manifest", manifest, "--image-dir", img, "--out-dir", npy,
-             "--stats-sample", "40" if a.quick else "200"])
+             "--downsample", "2", "--stats-sample", "40" if a.quick else "200"])
     if "train" in stages:
         for name in exps:
             out = res / name
             if (out / "done.json").exists() and not a.force:
                 print(f"skip train {name} (done)")
                 continue
+            n_steps = steps if name == "unet" else ablation_steps
+            if name == "linear":
+                n_steps = min(n_steps, 500)
             cmd = [PY, "-m", "vptox.train", "--manifest", manifest, "--npy-dir", npy, "--out-dir", out,
-                   "--epochs", epochs] + EXPERIMENTS[name]
+                   "--steps", n_steps] + EXPERIMENTS[name]
             if a.quick:
-                cmd += ["--samples-per-field", "2", "--max-val-fields", "8", "--batch", "8"]
+                cmd += ["--val-every", "20", "--max-val-fields", "8", "--batch", "8"]
             run(cmd)
     if "eval" in stages:
         for name in exps:

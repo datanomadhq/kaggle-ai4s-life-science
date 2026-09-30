@@ -85,7 +85,7 @@ def main(argv=None):
     for x, y, i in tqdm(dl, desc=f"predict {a.split}"):
         r = m.iloc[int(i)]
         mu, b = predict_field(model, x.to(device), tta=not a.no_tta)
-        H, W = 1080, 1080  # remove reflect padding
+        H, W = ds.load(int(i))[0].shape[1:]  # original field size: remove reflect padding
         mu, y_np = mu[:, :H, :W], y[0].numpy()[:, :H, :W]
         row = {"field_id": r.field_id, "well": r.well, "site": r.site, "group": r.group, "compound": r.compound,
                "concentration": r.concentration}

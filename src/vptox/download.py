@@ -63,21 +63,25 @@ def main(argv=None):
     ap.add_argument("--wells", default="", help="comma-separated wells to restrict to (default: all)")
     ap.add_argument("--sites", default="", help="comma-separated site numbers to restrict to (default: all)")
     ap.add_argument("--workers", type=int, default=12)
+    ap.add_argument("--keys-file", default="", help="download this explicit list of S3 keys instead of a dataset")
     a = ap.parse_args(argv)
-    d = DATASETS[a.dataset]
     out = Path(a.out)
-    meta = Path(a.meta_out) if a.meta_out else out.parent / "meta"
-    meta.mkdir(parents=True, exist_ok=True)
-    ld_path = fetch(d["load_data"], meta / f"{a.dataset}_load_data.csv")
-    fetch(d["platemap"], meta / "platemap.txt")
-    ld = pd.read_csv(ld_path, dtype=str)
-    if a.wells:
-        ld = ld[ld.Metadata_Well.isin(a.wells.split(","))]
-    if a.sites:
-        ld = ld[ld.Metadata_Site.isin(a.sites.split(","))]
-    keys = sorted({u.replace("s3://cellpainting-gallery/", "") for c in URL_COLS for u in ld[c]})
+    if a.keys_file:
+        keys = [k.strip() for k in Path(a.keys_file).read_text().splitlines() if k.strip()]
+    else:
+        d = DATASETS[a.dataset]
+        meta = Path(a.meta_out) if a.meta_out else out.parent / "meta"
+        meta.mkdir(parents=True, exist_ok=True)
+        ld_path = fetch(d["load_data"], meta / f"{a.dataset}_load_data.csv")
+        fetch(d["platemap"], meta / "platemap.txt")
+        ld = pd.read_csv(ld_path, dtype=str)
+        if a.wells:
+            ld = ld[ld.Metadata_Well.isin(a.wells.split(","))]
+        if a.sites:
+            ld = ld[ld.Metadata_Site.isin(a.sites.split(","))]
+        keys = sorted({u.replace("s3://cellpainting-gallery/", "") for c in URL_COLS for u in ld[c]})
     todo = [k for k in keys if not (out / os.path.basename(k)).exists()]
-    print(f"{len(ld)} fields, {len(keys)} files, {len(todo)} to download -> {out}")
+    print(f"{len(keys)} files, {len(todo)} to download -> {out}")
     n = 0
     with ThreadPoolExecutor(a.workers) as ex:
         futs = [ex.submit(fetch, k, out / os.path.basename(k)) for k in todo]
