@@ -115,6 +115,9 @@ def main(argv=None):
     stats = load_stats(a.npy_dir)
     train_ds = FieldDataset(m[m.split == "train"], a.npy_dir, stats, crop=a.crop, augment=True, samples_per_field=4)
     val_m = m[m.split == "val"]
+    if len(val_m) == 0:  # tiny smoke-test subsets may have no validation well: fall back to a few training fields
+        print("WARNING: no validation wells in manifest; validating on training fields (smoke test only)")
+        val_m = m[m.split == "train"].iloc[:8]
     if len(val_m) > a.max_val_fields:  # a fixed, evenly spaced subset keeps validation cheap
         val_m = val_m.iloc[np.linspace(0, len(val_m) - 1, a.max_val_fields).astype(int)]
     val_ds = FieldDataset(val_m, a.npy_dir, stats, crop=None, augment=False)

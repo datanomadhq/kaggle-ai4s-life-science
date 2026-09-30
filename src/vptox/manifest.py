@@ -30,8 +30,13 @@ def load_hepatopac_platemap(path: str | os.PathLike) -> pd.DataFrame:
 
 
 def build_manifest(load_data_csv: str, platemap: str, image_dir: str, out_csv: str,
-                   seed: int = 0, n_test_per_group: int = 1, n_val_per_group: float = 0.5) -> pd.DataFrame:
+                   seed: int = 0, n_test_per_group: int = 1, n_val_per_group: float = 0.5,
+                   wells: list[str] | None = None, sites: list[str] | None = None) -> pd.DataFrame:
     ld = pd.read_csv(load_data_csv, dtype=str)
+    if wells:
+        ld = ld[ld.Metadata_Well.isin(wells)]
+    if sites:
+        ld = ld[ld.Metadata_Site.isin(sites)]
     rows = []
     for _, r in ld.iterrows():
         rec = {"plate": r["Metadata_Plate"], "well": r["Metadata_Well"], "site": int(r["Metadata_Site"])}
@@ -87,8 +92,11 @@ def main():
     ap.add_argument("--image-dir", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--wells", default="", help="comma-separated subset of wells (smoke tests)")
+    ap.add_argument("--sites", default="", help="comma-separated subset of sites (smoke tests)")
     a = ap.parse_args()
-    m = build_manifest(a.load_data, a.platemap, a.image_dir, a.out, seed=a.seed)
+    m = build_manifest(a.load_data, a.platemap, a.image_dir, a.out, seed=a.seed,
+                       wells=a.wells.split(",") if a.wells else None, sites=a.sites.split(",") if a.sites else None)
     print(summarize(m))
 
 

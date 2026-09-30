@@ -64,15 +64,19 @@ def main():
         img = data / "islands"
         manifest = (res / "manifest.csv") if a.quick else (data / "manifest.csv")
         npy = data / ("npy_quick" if a.quick else "npy_ds2")
-        quick_wells, quick_sites = "A01,B02,C03,E01,G03,H06", ",".join(str(s) for s in range(1, 9))
+        # 3 wells each of compound 1 low and compound 4 high + 4 controls, 6 fields each: gives train/val/test wells per group
+        quick_wells, quick_sites = "A01,B01,D06,A06,B06,G02,C03,C04,C05,F03", ",".join(str(s) for s in range(1, 7))
         if "download" in stages:
             cmd = [PY, "-m", "vptox.download", "--dataset", "hepatopac_islands", "--out", img]
             if a.quick:
                 cmd += ["--wells", quick_wells, "--sites", quick_sites]
             run(cmd)
         if "manifest" in stages and (a.force or not manifest.exists()):
-            run([PY, "-m", "vptox.manifest", "--load-data", data / "meta" / "hepatopac_islands_load_data.csv",
-                 "--platemap", data / "meta" / "platemap.txt", "--image-dir", img, "--out", manifest])
+            cmd = [PY, "-m", "vptox.manifest", "--load-data", data / "meta" / "hepatopac_islands_load_data.csv",
+                   "--platemap", data / "meta" / "platemap.txt", "--image-dir", img, "--out", manifest]
+            if a.quick:
+                cmd += ["--wells", quick_wells, "--sites", quick_sites]
+            run(cmd)
         downsample = "2"
     else:  # axiom
         img = data / "images"

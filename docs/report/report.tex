@@ -64,6 +64,19 @@ A 2D U-Net (4 resolution levels, 32--512 channels, 7.8\,M parameters) maps the b
 \end{equation}
 where $\operatorname{sg}$ is the stop-gradient. The mean is then trained exactly like a standard U-Net, and $b$ is the maximum-likelihood estimate of the expected absolute error given the input, which we display as a trust map and validate by calibration analysis. Joint NLL is kept as an ablation. Training uses random $256\times256$ crops with flips/rotations, AdamW (lr $3\cdot10^{-4}$, cosine schedule, 200 warm-up steps), batch 16, on Apple-Silicon MPS. Inference runs on full fields with 4-fold flip test-time augmentation (means and scales averaged).
 
+\subsection{Implementation}
+The project is a small Python package (\texttt{vptox}, $\approx$1,500 lines) with one module per stage and a single entry script:
+\begin{itemize}\itemsep0pt
+\item \texttt{download}: plain-HTTPS fetch of exactly the files listed in the gallery's \texttt{load\_data.csv} (thread pool, resumable), no AWS account;
+\item \texttt{manifest} / \texttt{axiom\_select} / \texttt{axiom\_manifest}: field-level tables joining image paths with platemaps and, for Axiom, the \texttt{biochem.parquet} viability; well- (or compound-) level stratified splits, committed under \texttt{meta/};
+\item \texttt{preprocess}: six-channel uint16 stacks per field (block-averaged), normalisation statistics from training fields only;
+\item \texttt{model} / \texttt{train}: U-Net with mean and log-scale heads, baselines, losses; step-budgeted training with periodic full-field validation and best-checkpoint selection by validation Pearson $r$;
+\item \texttt{predict}: full-field inference with flip TTA, per-field pixel metrics, calibration (Spearman, sparsification, reliability bins), float16 virtual stains for downstream use;
+\item \texttt{downstream} / \texttt{toxicity}: classical nuclear segmentation, 49 interpretable features, well profiles, grouped cross-validated classifiers/regressors;
+\item \texttt{figures}: every table and figure in this report; \texttt{predict\_image}: virtual staining of a user-supplied brightfield image.
+\end{itemize}
+Everything ran on a shared Apple-Silicon laptop (4 CPU threads, 16\,GB RAM budget, MPS GPU); no cloud, paid service or pretrained weights were used.
+
 \subsection{Baselines and ablations}
 Per-pixel linear map (no context), a shallow CNN (25\,px receptive field, no down-sampling), the same U-Net trained with plain L1 (no uncertainty), with an added SSIM term, and with 25\,\% / 50\,\% of the training wells. All ablations use an identical compute budget (1,500 steps); the main model is trained for 5,000 steps and we also report it at the 1,500-step checkpoint for a like-for-like comparison.
 
