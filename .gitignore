@@ -14,3 +14,8 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# results with large artefacts
+results/**/pred/
+results/**/*.pt
+results_quick/

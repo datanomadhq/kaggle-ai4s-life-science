@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vptox"
+version = "0.1.0"
+description = "VirtualPaint-Tox: label-free virtual Cell Painting with pixel-wise uncertainty for non-destructive toxicity readouts"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "numpy",
+  "pandas",
+  "pyarrow",
+  "tifffile",
+  "imagecodecs",
+  "torch",
+  "scikit-image",
+  "scipy",
+  "scikit-learn",
+  "matplotlib",
+  "tqdm",
+  "pyyaml",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
