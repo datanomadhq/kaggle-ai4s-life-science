@@ -1,0 +1,469 @@
+
+##### PAGE data-description
+This challenge adopts an open data format. Teams may use any suitable data sources, including public, private, collaborative, simulated, or synthetic data. Data compliance, transparency, and reproducibility should be ensured. Solutions validated on real OoC experimental data are strongly encouraged.
+
+The listed datasets are examples only. Teams may select other datasets based on their research goals and must comply with relevant licenses and usage conditions.
+
+| Dataset / Resource | Link | Description |
+| --- | --- | --- |
+| CellNet | [https://cellnet.hms.harvard.edu/](https://cellnet.hms.harvard.edu/) | A resource for cell identity analysis based on transcriptomics and gene regulatory networks. |
+| BBBC | [https://bbbc.broadinstitute.org/](https://bbbc.broadinstitute.org/) | A microscopy image benchmark collection with images, annotations, and biological labels. |
+| IDR | [https://idr.openmicroscopy.org/](https://idr.openmicroscopy.org/) | A public repository of biological images, phenotypes, and experimental metadata from published studies. |
+| RxRx1 | [https://www.rxrx.ai/rxrx1](https://www.rxrx.ai/rxrx1) | A large-scale cellular microscopy dataset with multi-channel fluorescence images and genetic perturbation data. |
+| CytoData | [https://www.cytodata.org/](https://www.cytodata.org/) | A community resource for image-based profiling, Cell Painting, and cellular phenotype analysis. |
+| JUMP Hub | [https://broadinstitute.github.io/jump_hub/](https://broadinstitute.github.io/jump_hub/) | A resource portal providing datasets, documentation, tools, and analysis examples for JUMP projects. |
+| JUMP-Cell Painting | [https://jump-cellpainting.broadinstitute.org/](https://jump-cellpainting.broadinstitute.org/) | A large-scale Cell Painting dataset containing compound and genetic perturbation imaging data. |
+
+Data Compliance: Teams must not use unauthorized personal, clinical, or restricted data. Data licenses, privacy protection, and ethical compliance should be clearly stated in the technical report.
+
+##### PAGE Description
+The **AI for Life Science Challenge** invites you to explore how AI can advance life science, with a special focus on **organ-on-a-chip technologies and applications.**
+
+Use AI, including machine learning, multimodal models, and AI agents, to explore organ-on-a-chip and other biological data. From analyzing cell images and predicting drug responses to supporting experiments and research workflows, we welcome new ideas that bring AI into life science.
+
+**The only official submission is a Kaggle Writeup, which should include the demo video, public code repository, and technical report.** Additional links to interactive demos, online applications, Notebook Apps, web systems, or AI Agent systems can also be provided.
+
+In order to helps reviewers understand the project's positioning and calibrate expectations accordingly, we recommdond the category below, The submission category does not affect the required deliverables — all teams submit the same Kaggle Writeup package. 
+
+
+## Submission Categories
+
+**Model & Algorithm**
+Novel AI/ML models, algorithms, or computational methods for organ-on-a-chip applications, such as prediction models, image analysis algorithms, simulation methods, or scoring systems.
+
+**Tool & Platform**
+Software tools, analytical platforms, or infrastructure supporting organ-on-a-chip research workflows, such as data pipelines, experiment automation tools, or visualization platforms.
+
+**End-to-End System**
+Complete systems integrating multiple components from data input to actionable output, such as drug screening systems, automated experimental platforms, or AI-driven digital twins.
+
+The official submission is a Kaggle Writeup, including the demo video, public code repository, and technical report. Optional links to interactive demos, online applications, Notebook Apps, web systems, or AI Agent systems may also be provided.
+
+
+
+## Where will you make an impact?
+
+
+**Drug Toxicity Prediction and Response Evaluation**
+
+Develop AI models using organ-on-a-chip data, high-content imaging, or cell images to predict drug toxicity, efficacy, and dose-response relationships. Models may analyze imaging data and experimental metadata to identify cellular changes and generate risk scores or response indicators.
+
+**Bright-field to Fluorescence Image Translation**
+
+Explore in silico labeling methods to generate fluorescence images from bright-field images. The goal is to reduce staining costs and experimental burden while preserving biologically meaningful structures and enabling downstream analysis.
+
+**Single-cell Phenotype Analysis**
+
+Develop AI methods for cell segmentation, feature extraction, and phenotype analysis from organ-on-a-chip or microscopy images. Approaches may use supervised, unsupervised, or self-supervised learning to identify cell states, drug responses, and abnormal phenotypes.
+
+**And Beyond:** Explore other innovative AI applications in organ-on-a-chip and life science.
+
+
+##### PAGE rules
+## Rules
+
+By participating in this Challenge, participants acknowledge that they have read, understood, and agreed to comply with the general rules of the 5th Pazhou Algorithm Competition, these Challenge-Specific Rules, and any additional requirements officially published by the Organizing Committee.
+
+If there is any inconsistency between these Challenge-Specific Rules and the general rules of the 5th Pazhou Algorithm Competition, the final rules and interpretations officially issued by the Organizing Committee shall prevail.
+
+### 1. Team Participation
+
+- Each participating team must consist of at least **one (1) member** and no more than **five (5) members**. Each team must designate one team leader as the primary contact person.
+- Each participant may join only **one team in this Challenge**. Participants may also participate in other tracks or challenges of the Competition and may join different teams for different challenges, subject to the applicable rules of those challenges.
+- All team members must provide true, accurate, and valid identity and registration information as required by the Competition. The use of false identities, multiple accounts for duplicate registration, participation under another person's identity, or any other attempt to circumvent team restrictions is prohibited.
+- Team membership must be finalized before the official team formation deadline. After the deadline, adding, replacing, or changing team members is generally not permitted unless otherwise approved by the Organizing Committee under exceptional circumstances.
+- Submissions must be independently developed by the participating team. Teams are prohibited from obtaining an unfair competitive advantage through private exchange of complete solutions, core source code, non-public models, experimental results, or other substantive competition materials between separate teams.
+- Publicly available academic papers, open-source code, public datasets, open models, publicly accessible models, and other resources legally available to all participants may be used, provided that all applicable licenses, terms of use, and attribution requirements are observed.
+
+### 2. Originality and Intellectual Property
+
+- Participating teams must ensure that all materials included in their submissions are legally obtained and that they have the necessary rights to use such materials in this Competition.
+- Plagiarism, misappropriation, unauthorized copying, or unauthorized use of third-party code, models, algorithms, academic work, data, images, videos, software, or other intellectual property is strictly prohibited.
+- If a submission is developed on the basis of research, software, models, products, publications, or other work completed before the Competition, the participating team must truthfully disclose the relevant prior work and identify the new work or improvements made specifically for the Competition.
+- **Ownership of participating submissions shall be jointly held by the participating team and the Organizing Committee.**
+- Such joint ownership shall apply only to the materials actually submitted by the team for purposes of evaluation, exhibition, and promotion in connection with the Competition. Any third-party intellectual property, open-source software, third-party models, datasets, APIs, or other third-party resources incorporated into a submission shall remain subject to their original ownership and licensing arrangements.
+- Participating teams agree that the Organizing Committee may reasonably use submitted materials before, during, and after the Competition for the following purposes:
+ - Competition evaluation;
+ - Publication or display on official Competition websites and platforms;
+ - Exhibition of Competition outcomes;
+ - Roadshows, award ceremonies, and related activities;
+ - Media coverage;
+ - Competition summaries and reports;
+ - Scientific, educational, and technical exchange;
+ - Non-commercial Competition promotion and archival purposes.
+- For the purposes listed above, the Organizing Committee may use project titles, summaries, images, screenshots, Demo Videos, publicly available portions of Technical Reports, public code repository links, and other materials submitted for Competition presentation.
+- **Without the separate written consent of the participating team, the Organizing Committee shall not use the submission for profit-making transactions, sell the submission to any third party, commercially transfer the submission, or grant any exclusive commercial license relating to the submission.**
+- If the Organizing Committee, Challenge partner, sponsor, cooperating institution, or any other party wishes to pursue technology transfer, commercial licensing, joint research and development, investment, procurement, or other commercial cooperation after the Competition, the relevant parties shall negotiate separately and enter into an appropriate written agreement.
+
+### 3. Data Use and Compliance
+
+- Participating teams may use:
+ - Datasets recommended by the Challenge;
+ - Public research datasets;
+ - Open datasets;
+ - Data lawfully owned by the team;
+ - Properly authorized data;
+ - Simulated data;
+ - Synthetic data;
+ - Other relevant and legally compliant data.
+- Participating teams are responsible for verifying the legality of the data they use and their right to use such data. Major data sources, methods of access, applicable licenses, and relevant data processing methods must be truthfully disclosed in the submitted technical materials.
+- The following data must not be used without appropriate authorization:
+ - Illegally obtained data;
+ - Leaked data;
+ - Unauthorized personal data;
+ - Sensitive personal information;
+ - Clinical data used without appropriate authorization;
+ - Data obtained in violation of scientific or medical ethics;
+ - Data whose use is prohibited by applicable laws or regulations.
+- If a project involves human subjects, clinical information, biomedical data, personal information, or other data subject to specific ethical or regulatory requirements, the participating team is responsible for ensuring that all required approvals, authorizations, consents, or other compliance requirements have been satisfied.
+- Where data cannot lawfully or ethically be made public, participating teams are not required to disclose the underlying raw data solely for the purpose of participating in the Competition. However, they must provide sufficient information to allow judges to reasonably understand the source and nature of the data and assess the credibility of the reported results.
+- Participants must not use any data provided or recommended by the Competition for activities that endanger national security, public interests, the lawful rights and interests of others, or otherwise violate applicable laws and regulations.
+
+### 4. External Models, Software, and AI Tools
+
+- Participating teams may reasonably use:
+ - Open-source models;
+ - Pretrained models;
+ - Large Language Models;
+ - Multimodal models;
+ - Foundation Models;
+ - AI Agents;
+ - AutoML tools;
+ - Third-party libraries;
+ - Open-source code;
+ - Commercial models;
+ - APIs;
+ - Cloud computing services;
+ - Other lawful AI or software tools.
+- Where third-party models, APIs, software, or AI tools constitute a material component of the project, the participating team must disclose their names, sources, and primary purposes in the submission materials.
+- Participating teams are solely responsible for ensuring that all third-party resources they use comply with applicable:
+ - Intellectual property requirements;
+ - Open-source licenses;
+ - Data use agreements;
+ - API terms of service;
+ - Software licenses;
+ - Other applicable contractual or legal requirements.
+- The fact that software, models, or generative AI tools are open-source or publicly accessible does not remove any applicable intellectual property or licensing obligations.
+- Participating teams remain responsible for the final submission. Even where certain code, text, images, analyses, or other content are generated or assisted by AI tools, the team must independently verify their authenticity, accuracy, legality, and intellectual property compliance.
+
+### 5. Participant Responsibility and Disclaimer
+
+- Participating teams are solely responsible for ensuring that all code, models, data, software, images, videos, music, text, APIs, and other third-party materials used in their submissions are lawfully used.
+- **Any dispute, complaint, claim, loss, damage, or legal liability arising from a team's unauthorized use of third-party data, software, models, code, intellectual property, or other materials shall be borne by the relevant participating team.**
+- To the extent permitted by applicable law, the Competition Sponsor, Organizing Committee, organizers, Challenge partners, and data providers shall not be responsible for liabilities caused by the participants' own conduct, including but not limited to:
+ - Intellectual property infringement;
+ - Improper or unlawful use of data;
+ - Privacy or personal information violations;
+ - Violations of third-party license terms;
+ - Violations of software or model terms of service;
+ - Scientific or medical ethics violations;
+ - Submission of false or misleading materials;
+ - Other unlawful or non-compliant conduct attributable to the participating team.
+- If a third party raises a reasonable intellectual property, data compliance, or other rights-related claim regarding a submission, the Organizing Committee may require the participating team to provide relevant licenses, authorizations, source documentation, or other supporting materials within a specified period.
+- If the team is unable to reasonably demonstrate that the relevant materials were lawfully obtained or used, the Organizing Committee may, depending on the circumstances:
+ - Require removal or modification of the relevant materials;
+ - Cancel the relevant score;
+ - Disqualify the team from advancement;
+ - Revoke award eligibility;
+ - Revoke an announced award;
+ - Disqualify the team from the Competition.
+
+### 6. Fair Competition and Violations
+
+- All participants must comply with the principles of fair competition.
+- Prohibited conduct includes, but is not limited to:
+ - Plagiarism or misappropriation;
+ - Fabrication of project results;
+ - Fabrication of experimental results;
+ - Fabrication of model performance;
+ - Fabrication or manipulation of demonstrations;
+ - Failing to disclose material third-party work while representing it as original;
+ - Use of false identities or multiple accounts;
+ - Submission of substantially identical projects by the same individual through multiple teams;
+ - Unauthorized acquisition of other teams' code, data, or results;
+ - Private exchange of core solutions between competing teams;
+ - Exploitation of platform, technical, procedural, or evaluation loopholes to gain an unfair advantage;
+ - Any other conduct that materially undermines the fairness or integrity of the Competition.
+- The Organizing Committee may investigate suspected violations and may require participating teams to provide code, data source information, model details, execution records, experimental records, or other materials reasonably necessary for verification.
+- If a violation is confirmed, the Organizing Committee may, depending on the severity of the conduct, issue a warning, cancel scores, revoke advancement eligibility, revoke awards, or disqualify the team.
+
+### 7. Rights of the Organizing Committee
+
+- The Organizing Committee reserves the right to reasonably verify participant identities, the authenticity of submissions, data sources, code, models, and related materials.
+- If re-evaluation is necessary due to suspected cheating, technical issues, data issues, evaluation errors, or other circumstances affecting the fairness of the Competition, the Organizing Committee may conduct a new review or adjust the relevant results.
+- The Organizing Committee reserves the right to determine and address violations of Competition rules in accordance with the principles of fairness and integrity.
+- For teams whose conduct seriously affects the organization, reputation, or fairness of the Competition, the Organizing Committee may revoke participation, advancement, or award eligibility and may withdraw or refuse to grant any corresponding prize or monetary award.
+- The Organizing Committee reserves the right to reasonably amend or supplement these Rules where necessary based on the actual operation of the Competition. Any material changes affecting participants' rights or obligations should be announced through official Competition channels.
+
+##### PAGE abstract
+Join us for the Artificial Intelligence for Life Science Challenge, where we explore innovative AI solutions for life science research and applications. This challenge is one of the tracks of the 5th Pazhou Algorithm Competition, an international AI and algorithm competition. We invite teams to develop innovative, interpretable, explainable, and applicable solutions in life science, with particular interest in innovative applications in organ-on-a-chip and related fields.
+
+For more information about the Competition, please visit the official website: [https://www.aicompetition-pz.com/](https://www.aicompetition-pz.com/)
+
+**Important: In addition to submitting the official Kaggle Writeup, all teams must also complete the required registration form before submission. Submissions from teams that have not completed this form will not be eligible for evaluation or awards.**
+
+**Registration Form:** [https://docs.google.com/forms/d/e/1FAIpQLSdRAat5jIunRaFNh_NntsVeJUnekEJDrbuokLZ32LFgCwPtiA/viewform?usp=publish-editor](https://docs.google.com/forms/d/e/1FAIpQLSdRAat5jIunRaFNh_NntsVeJUnekEJDrbuokLZ32LFgCwPtiA/viewform?usp=publish-editor)
+
+Submissions can include AI models, software tools, platforms, AI agents, simulation systems, data pipelines, or research support systems. All submissions will be evaluated within one of three categories: Model & Algorithm, Tool & Platform, or End-to-End System. **The challenge does not restrict specific tasks, datasets, or algorithms, but we especially welcome projects exploring AI applications in organ-on-a-chip.**
+
+**Timeline:** August 15 – October 10, 2026
+
+**Awards:** Outstanding projects will receive prizes and opportunities for further recognition and collaboration.
+
+##### PAGE foundational-rules
+The following Kaggle Competition Foundational Rules (“ Foundational Rules ”) apply to every competition regardless of whether the Sponsor creates competition-specific rules. Any competition-specific rules provided by the Sponsor are in addition to these rules, and in the case of any conflict or inconsistency, these Foundational Rules control and nullify contrary competition-specific rules.
+###GENERAL COMPETITION RULES - BINDING AGREEMENT
+####1. ELIGIBILITY
+a. To be eligible to enter the Competition, you must be: 
+1. a registered account holder at Kaggle.com; 
+2. the older of 18 years old or the age of majority in your jurisdiction of residence (unless otherwise agreed to by Competition Sponsor and appropriate parental/guardian consents have been obtained by Competition Sponsor); 
+3. not a resident of Crimea, so-called Donetsk People's Republic (DNR) or Luhansk People's Republic (LNR), Cuba, Iran, or North Korea; and 
+4. not a person or representative of an entity under U.S. export controls or sanctions (see: [https://www.treasury.gov/resourcecenter/sanctions/Programs/Pages/Programs.aspx][1]). 
+
+b. Competitions are open to residents of the United States and worldwide, except that if you are a resident of Crimea, so-called Donetsk People's Republic (DNR) or Luhansk People's Republic (LNR), Cuba, Iran, North Korea, or are subject to U.S. export controls or sanctions, you may not enter the Competition. Other local rules and regulations may apply to you, so please check your local laws to ensure that you are eligible to participate in skills-based competitions. The Competition Host reserves the right to forego or award alternative Prizes where needed to comply with local laws. If a winner is located in a country where prizes cannot be awarded, then they are not eligible to receive a prize. 
+
+c. If you are entering as a representative of a company, educational institution or other legal entity, or on behalf of your employer, these rules are binding on you, individually, and the entity you represent or where you are an employee. If you are acting within the scope of your employment, or as an agent of another party, you warrant that such party or your employer has full knowledge of your actions and has consented thereto, including your potential receipt of a Prize. You further warrant that your actions do not violate your employer's or entity's policies and procedures. 
+
+d. The Competition Sponsor reserves the right to verify eligibility and to adjudicate on any dispute at any time. If you provide any false information relating to the Competition concerning your identity, residency, mailing address, telephone number, email address, ownership of right, or information required for entering the Competition, you may be immediately disqualified from the Competition. 
+
+####2. SPONSOR AND HOSTING PLATFORM
+
+a. The Competition is sponsored by Competition Sponsor named above. The Competition is hosted on behalf of Competition Sponsor by Kaggle Inc. ("Kaggle"). Kaggle is an independent contractor of Competition Sponsor, and is not a party to this or any agreement between you and Competition Sponsor. You understand that Kaggle has no responsibility with respect to selecting the potential Competition winner(s) or awarding any Prizes. Kaggle will perform certain administrative functions relating to hosting the Competition, and you agree to abide by the provisions relating to Kaggle under these Rules. As a Kaggle.com account holder and user of the Kaggle competition platform, remember you have accepted and are subject to the Kaggle Terms of Service at [www.kaggle.com/terms][2] in addition to these Rules. 
+
+####3. COMPETITION PERIOD
+a. For the purposes of Prizes, the Competition will run from the Start Date and time to the Final Submission Deadline (such duration the “Competition Period”). The Competition Timeline is subject to change, and Competition Sponsor may introduce additional hurdle deadlines during the Competition Period. Any updated or additional deadlines will be publicized on the Competition Website. It is your responsibility to check the Competition Website regularly to stay informed of any deadline changes. YOU ARE RESPONSIBLE FOR DETERMINING THE CORRESPONDING TIME ZONE IN YOUR LOCATION. 
+
+####4. COMPETITION ENTRY
+a. NO PURCHASE NECESSARY TO ENTER OR WIN. To enter the Competition, you must register on the Competition Website prior to the Entry Deadline, and follow the instructions for developing and entering your Submission through the Competition Website. Your Submissions must be made in the manner and format, and in compliance with all other requirements, stated on the Competition Website (the "Requirements"). Submissions must be received before any Submission deadlines stated on the Competition Website. Submissions not received by the stated deadlines will not be eligible to receive a Prize. 
+b. Submissions may not use or incorporate information from hand labeling or human prediction of the validation dataset or test data records. 
+c. If the Competition is a multi-stage competition with temporally separate training and/or test data, one or more valid Submissions may be required during each Competition stage in the manner described on the Competition Website in order for the Submissions to be Prize eligible. 
+d. Submissions are void if they are in whole or part illegible, incomplete, damaged, altered, counterfeit, obtained through fraud, or late. Competition Sponsor reserves the right to disqualify any entrant who does not follow these Rules, including making a Submission that does not meet the Requirements. 
+
+####5. INDIVIDUALS AND TEAMS
+a. Individual Account. You may make Submissions only under one, unique Kaggle.com account. You will be disqualified if you make Submissions through more than one Kaggle account, or attempt to falsify an account to act as your proxy. You may submit up to the maximum number of Submissions per day as specified on the Competition Website. 
+b. Teams. If permitted under the Competition Website guidelines, multiple individuals may collaborate as a Team; however, you may join or form only one Team. Each Team member must be a single individual with a separate Kaggle account. You must register individually for the Competition before joining a Team. You must confirm your Team membership to make it official by responding to the Team notification message sent to your Kaggle account. Team membership may not exceed the Maximum Team Size stated on the Competition Website. 
+c. Team Merger. Teams may request to merge via the Competition Website. Team mergers may be allowed provided that: (i) the combined Team does not exceed the Maximum Team Size; (ii) the number of Submissions made by the merging Teams does not exceed the number of Submissions permissible for one Team at the date of the merger request; (iii) the merger is completed before the earlier of: any merger deadline or the Competition deadline; and (iv) the proposed combined Team otherwise meets all the requirements of these Rules. 
+d. Private Sharing. No private sharing outside of Teams. Privately sharing code or data outside of Teams is not permitted. It's okay to share code if made available to all Participants on the forums. 
+
+####6. SUBMISSION CODE REQUIREMENTS
+a. Private Code Sharing. Unless otherwise specifically permitted under the Competition Website or Competition Specific Rules above, during the Competition Period, you are not allowed to privately share source or executable code developed in connection with or based upon the Competition Data or other source or executable code relevant to the Competition (“Competition Code”). This prohibition includes sharing Competition Code between separate Teams, unless a Team merger occurs. Any such sharing of Competition Code is a breach of these Competition Rules and may result in disqualification. 
+b. Public Code Sharing. You are permitted to publicly share Competition Code, provided that such public sharing does not violate the intellectual property rights of any third party. If you do choose to share Competition Code or other such code, you are required to share it on Kaggle.com on the discussion forum or notebooks associated specifically with the Competition for the benefit of all competitors. By so sharing, you are deemed to have licensed the shared code under an Open Source Initiative-approved license (see [www.opensource.org][3]) that in no event limits commercial use of such Competition Code or model containing or depending on such Competition Code. 
+c. Use of Open Source. Unless otherwise stated in the Specific Competition Rules above, if open source code is used in the model to generate the Submission, then you must only use open source code licensed under an Open Source Initiative-approved license (see [www.opensource.org][4]) that in no event limits commercial use of such code or model containing or depending on such code. 
+
+####7. DETERMINING WINNERS
+a. Each Submission will be scored and ranked by the evaluation metric stated on the Competition Website. During the Competition Period, the current ranking will be visible on the Competition Website's Public Leaderboard. The potential winner(s) are determined solely by the leaderboard ranking on the Private Leaderboard, subject to compliance with these Rules. The Public Leaderboard will be based on the public test set and the Private Leaderboard will be based on the private test set. 
+b. In the event of a tie, the Submission that was entered first to the Competition will be the winner. In the event a potential winner is disqualified for any reason, the Submission that received the next highest score rank will be chosen as the potential winner. 
+
+####8. NOTIFICATION OF WINNERS & DISQUALIFICATION
+a. The potential winner(s) will be notified by email. 
+b. If a potential winner (i) does not respond to the notification attempt within one (1) week from the first notification attempt or (ii) notifies Kaggle within one week after the Final Submission Deadline that the potential winner does not want to be nominated as a winner or does not want to receive a Prize, then, in each case (i) and (ii) such potential winner will not receive any Prize, and an alternate potential winner will be selected from among all eligible entries received based on the Competition’s judging criteria. 
+c. In case (i) and (ii) above Kaggle may disqualify the Participant. However, in case (ii) above, if requested by Kaggle, such potential winner may provide code and documentation to verify the Participant’s compliance with these Rules. If the potential winner provides code and documentation to the satisfaction of Kaggle, the Participant will not be disqualified pursuant to this paragraph. 
+d. Competition Sponsor reserves the right to disqualify any Participant from the Competition if the Competition Sponsor reasonably believes that the Participant has attempted to undermine the legitimate operation of the Competition by cheating, deception, or other unfair playing practices or abuses, threatens or harasses any other Participants, Competition Sponsor or Kaggle. 
+e. A disqualified Participant may be removed from the Competition leaderboard, at Kaggle's sole discretion. If a Participant is removed from the Competition Leaderboard, additional winning features associated with the Kaggle competition platform, for example Kaggle points or medals, may also not be awarded. 
+f. The final leaderboard list will be publicly displayed at Kaggle.com. Determinations of Competition Sponsor are final and binding. 
+
+####9. PRIZES
+a. Prize(s) are as described on the Competition Website and are only available for winning during the time period described on the Competition Website. The odds of winning any Prize depends on the number of eligible Submissions received during the Competition Period and the skill of the Participants. 
+b. All Prizes are subject to Competition Sponsor's review and verification of the Participant’s eligibility and compliance with these Rules, and the compliance of the winning Submissions with the Submissions Requirements. In the event that the Submission demonstrates non-compliance with these Competition Rules, Competition Sponsor may at its discretion take either of the following actions: (i) disqualify the Submission(s); or (ii) require the potential winner to remediate within one week after notice all issues identified in the Submission(s) (including, without limitation, the resolution of license conflicts, the fulfillment of all obligations required by software licenses, and the removal of any software that violates the software restrictions). 
+c. A potential winner may decline to be nominated as a Competition winner in accordance with Section 3.8. 
+d. Potential winners must return all required Prize acceptance documents within two (2) weeks following notification of such required documents, or such potential winner will be deemed to have forfeited the prize and another potential winner will be selected. Prize(s) will be awarded within approximately thirty (30) days after receipt by Competition Sponsor or Kaggle of the required Prize acceptance documents. Transfer or assignment of a Prize is not allowed. 
+e. You are not eligible to receive any Prize if you do not meet the Eligibility requirements in Section 2.7 and Section 3.1 above. 
+f. If a Team wins a monetary Prize, the Prize money will be allocated in even shares between the eligible Team members, unless the Team unanimously opts for a different Prize split and notifies Kaggle before Prizes are issued. 
+
+####10. TAXES
+a. ALL TAXES IMPOSED ON PRIZES ARE THE SOLE RESPONSIBILITY OF THE WINNERS. Payments to potential winners are subject to the express requirement that they submit all documentation requested by Competition Sponsor or Kaggle for compliance with applicable state, federal, local and foreign (including provincial) tax reporting and withholding requirements. Prizes will be net of any taxes that Competition Sponsor is required by law to withhold. If a potential winner fails to provide any required documentation or comply with applicable laws, the Prize may be forfeited and Competition Sponsor may select an alternative potential winner. Any winners who are U.S. residents will receive an IRS Form-1099 in the amount of their Prize. 
+
+####11. GENERAL CONDITIONS
+a. All federal, state, provincial and local laws and regulations apply. 
+
+####12. PUBLICITY
+a. You agree that Competition Sponsor, Kaggle and its affiliates may use your name and likeness for advertising and promotional purposes without additional compensation, unless prohibited by law. 
+
+####13. PRIVACY
+a. You acknowledge and agree that Competition Sponsor and Kaggle may collect, store, share and otherwise use personally identifiable information provided by you during the Kaggle account registration process and the Competition, including but not limited to, name, mailing address, phone number, and email address (“Personal Information”). Kaggle acts as an independent controller with regard to its collection, storage, sharing, and other use of this Personal Information, and will use this Personal Information in accordance with its Privacy Policy , including for administering the Competition. As a Kaggle.com account holder, you have the right to request access to, review, rectification, portability or deletion of any personal data held by Kaggle about you by logging into your account and/or contacting Kaggle Support at . 
+b. As part of Competition Sponsor performing this contract between you and the Competition Sponsor, Kaggle will transfer your Personal Information to Competition Sponsor, which acts as an independent controller with regard to this Personal Information. As a controller of such Personal Information, Competition Sponsor agrees to comply with all U.S. and foreign data protection obligations with regard to your Personal Information. Kaggle will transfer your Personal Information to Competition Sponsor in the country specified in the Competition Sponsor Address listed above, which may be a country outside the country of your residence. Such country may not have privacy laws and regulations similar to those of the country of your residence. 
+
+####14. WARRANTY, INDEMNITY AND RELEASE 
+a. You warrant that your Submission is your own original work and, as such, you are the sole and exclusive owner and rights holder of the Submission, and you have the right to make the Submission and grant all required licenses. You agree not to make any Submission that: (i) infringes any third party proprietary rights, intellectual property rights, industrial property rights, personal or moral rights or any other rights, including without limitation, copyright, trademark, patent, trade secret, privacy, publicity or confidentiality obligations, or defames any person; or (ii) otherwise violates any applicable U.S. or foreign state or federal law. 
+b. To the maximum extent permitted by law, you indemnify and agree to keep indemnified Competition Entities at all times from and against any liability, claims, demands, losses, damages, costs and expenses resulting from any of your acts, defaults or omissions and/or a breach of any warranty set forth herein. To the maximum extent permitted by law, you agree to defend, indemnify and hold harmless the Competition Entities from and against any and all claims, actions, suits or proceedings, as well as any and all losses, liabilities, damages, costs and expenses (including reasonable attorneys fees) arising out of or accruing from: (a) your Submission or other material uploaded or otherwise provided by you that infringes any third party proprietary rights, intellectual property rights, industrial property rights, personal or moral rights or any other rights, including without limitation, copyright, trademark, patent, trade secret, privacy, publicity or confidentiality obligations, or defames any person; (b) any misrepresentation made by you in connection with the Competition; (c) any non-compliance by you with these Rules or any applicable U.S. or foreign state or federal law; (d) claims brought by persons or entities other than the parties to these Rules arising from or related to your involvement with the Competition; and (e) your acceptance, possession, misuse or use of any Prize, or your participation in the Competition and any Competition-related activity. 
+c. You hereby release Competition Entities from any liability associated with: (a) any malfunction or other problem with the Competition Website; (b) any error in the collection, processing, or retention of any Submission; or (c) any typographical or other error in the printing, offering or announcement of any Prize or winners. 
+
+####15. INTERNET
+a. Competition Entities are not responsible for any malfunction of the Competition Website or any late, lost, damaged, misdirected, incomplete, illegible, undeliverable, or destroyed Submissions or entry materials due to system errors, failed, incomplete or garbled computer or other telecommunication transmission malfunctions, hardware or software failures of any kind, lost or unavailable network connections, typographical or system/human errors and failures, technical malfunction(s) of any telephone network or lines, cable connections, satellite transmissions, servers or providers, or computer equipment, traffic congestion on the Internet or at the Competition Website, or any combination thereof, which may limit a Participant’s ability to participate. 
+
+####16. RIGHT TO CANCEL, MODIFY OR DISQUALIFY
+a. If for any reason the Competition is not capable of running as planned, including infection by computer virus, bugs, tampering, unauthorized intervention, fraud, technical failures, or any other causes which corrupt or affect the administration, security, fairness, integrity, or proper conduct of the Competition, Competition Sponsor reserves the right to cancel, terminate, modify or suspend the Competition. Competition Sponsor further reserves the right to disqualify any Participant who tampers with the submission process or any other part of the Competition or Competition Website. Any attempt by a Participant to deliberately damage any website, including the Competition Website, or undermine the legitimate operation of the Competition is a violation of criminal and civil laws. Should such an attempt be made, Competition Sponsor and Kaggle each reserves the right to seek damages from any such Participant to the fullest extent of the applicable law. 
+
+####17. NOT AN OFFER OR CONTRACT OF EMPLOYMENT
+a. Under no circumstances will the entry of a Submission, the awarding of a Prize, or anything in these Rules be construed as an offer or contract of employment with Competition Sponsor or any of the Competition Entities. You acknowledge that you have submitted your Submission voluntarily and not in confidence or in trust. You acknowledge that no confidential, fiduciary, agency, employment or other similar relationship is created between you and Competition Sponsor or any of the Competition Entities by your acceptance of these Rules or your entry of your Submission. 
+
+####18. DEFINITIONS
+a. "Competition Data" are the data or datasets available from the Competition Website for the purpose of use in the Competition, including any prototype or executable code provided on the Competition Website. The Competition Data will contain private and public test sets. Which data belongs to which set will not be made available to Participants. 
+b. An “Entry” is when a Participant has joined, signed up, or accepted the rules of a competition. Entry is required to make a Submission to a competition. 
+c. A “Final Submission” is the Submission selected by the user, or automatically selected by Kaggle in the event not selected by the user, that is/are used for final placement on the competition leaderboard. 
+d. A “Participant” or “Participant User” is an individual who participates in a competition by entering the competition and making a Submission. 
+e. The “Private Leaderboard” is a ranked display of Participants’ Submission scores against the private test set. The Private Leaderboard determines the final standing in the competition. 
+f. The “Public Leaderboard” is a ranked display of Participants’ Submission scores against a representative sample of the test data. This leaderboard is visible throughout the competition. 
+g. A “Sponsor” is responsible for hosting the competition, which includes but is not limited to providing the data for the competition, determining winners, and enforcing competition rules. 
+h. A “Submission” is anything provided by the Participant to the Sponsor to be evaluated for competition purposes and determine leaderboard position. A Submission may be made as a model, notebook, prediction file, or other format as determined by the Sponsor. 
+i. A “Team” is one or more Participants participating together in a Kaggle competition, by officially merging together as a Team within the competition platform. 
+
+ [1]: https://www.treasury.gov/resource-center/sanctions/Programs/Pages/Programs.aspx
+ [2]: http://www.kaggle.com/terms
+ [3]: http://www.opensource.org
+ [4]: http://www.opensource.org
+ [5]: https://www.kaggle.com/WinningModelDocumentationGuidelines
+ [6]: http://www.kaggle.com/privacy
+ [7]: http://www.kaggle.com/contact
+
+
+##### PAGE Timeline
+| Stage | Timeline | Submission / Activity | Evaluation / Outcome | Format |
+| --- | --- | --- | --- | --- |
+| Preliminary Round | August 15 – October 10, 2026 | Teams submit the official Kaggle Writeup, including the demo video, public code repository, and technical report. Optional demo links may also be included. | — | Online submission |
+| Semi-Final Round | October 10 – October 20, 2026 | The organizing committee conducts expert review of submitted materials and selects 20 teams for the final round. | Evaluation based on Kaggle Writeup, code repository, demo video, and technical report. | Expert review |
+| Final Round | October 20 – October 30, 2026 | The 20 finalist teams present and defend their projects, highlighting complete solutions, key innovations, application value, and future plans. | Experts conduct final evaluation and select award-winning teams. | Online presentation and defense |
+| Results Announcement | Before November 2026 | — | — | Official announcement |
+
+##### PAGE Submission Requirements
+Please read the following requirements carefully. Projects that do not meet these requirements will not be eligible for awards.
+
+**Category Declaration: Each team must declare their submission category at the beginning of their Kaggle Writeup.**
+
+### 1. Demo Video (Required)
+
+Teams must include a public demo video showing the project workflow, core functions, main results, and practical value.
+
+- Duration: Maximum 5 minutes. If longer, only the first 5 minutes are guaranteed to be reviewed.
+- Format: Upload as a Kaggle attachment or provide a public link (e.g., YouTube, Bilibili, Loom, etc.).
+- Access: The video must be viewable without login, permission requests, or payment.
+- Content: The video should demonstrate the actual system or model operation, including inputs, workflow, outputs, key interfaces, or experimental results.
+- Authorization: All materials, data, images, music, model outputs, or third-party content must have proper usage and redistribution rights.
+
+### 2. Public Code Repository (Required)
+
+Teams must provide a publicly accessible code repository link (e.g., GitHub, GitLab, Kaggle Notebook, or other platforms). The code must be reproducible by reviewers without requiring paid services, proprietary hardware, or non-public datasets.
+
+The repository should allow reviewers to understand and reproduce the project, including:
+
+- Core code;
+- README.md;
+- Environment setup files (e.g., requirements.txt, environment.yml, Dockerfile);
+- Model files or download instructions;
+- Testing, inference, evaluation, or demo scripts;
+- Input/output descriptions;
+- Reproduction instructions.
+
+If external APIs, cloud services, commercial models, or third-party platforms are used, teams should describe required configurations, limitations, and alternative running options.
+
+A clear entry script (e.g., demo.py, inference.py, evaluate.py) is recommended.
+
+### 3. Technical Report (Required)
+
+Teams must provide a technical report in the Kaggle Writeup. The report may be written directly in the Writeup or provided as a publicly accessible PDF link inserted in the Writeup. The report should be concise and self-contained, ideally within 15–20 pages (excluding references and appendices).
+
+Recommended contents include:
+
+- Project title, team information, and summary;
+- Problem definition and application scenario;
+- Data sources, licenses, processing methods, and compliance;
+- Methods, models, algorithms, system architecture, or AI Agent workflow;
+- Implementation details and technical components;
+- Experiments, results, and evaluation;
+- Reliability analysis and limitations;
+- Potential scientific or practical impact;
+- Reproduction instructions;
+- Sources and licenses of external models, libraries, datasets, or AI tools.
+
+### 4. Demo Application or Interactive System (Optional)
+
+Projects with interactive demos, online applications, Notebook Apps, web systems, AI Agents, APIs, or simulation platforms may provide public access links.
+
+- Links must be publicly accessible without login, approval, or payment.
+- Usage instructions and technical requirements should be provided if needed.
+- If the demo depends on temporary services or limited resources, teams should provide limitations and backup materials (e.g., screenshots, videos, or local execution instructions).
+
+### Recommended Kaggle Writeup Structure
+
+
+The following structure is recommended:
+
+- **Demo Video**
+- **Code Repository Link**
+- **Project Summary** (200–300 words describing the problem, method, results, and value)
+- **Technical Report** (including data, methods, experiments, results, reproduction, and limitations)
+- **Optional Demo Link**
+
+### Team
+
+1. Each team must have 1–5 members.
+2. One member serves as the team leader and is responsible for communication with the organizing committee.
+3. Each member may only participate in one team.
+
+Cross-disciplinary bonus: Teams with members covering both AI/CS expertise and biology/bioengineering/clinical knowledge will receive a +0.5 bonus in the "Interpretability and Reliability" evaluation dimension. Team composition should be declared in the technical report.
+
+##### PAGE Evaluation
+**Show, don’t just tel**l. Your submission should clearly demonstrate the value of your AI solution through a compelling video demo and a detailed technical report. This is your opportunity to showcase not only what you built, but also why it matters, how it works, and what impact it can create in life science.
+
+Your video should tell a clear story: introduce the problem, explain your approach, demonstrate your solution, and highlight the results. Your technical report should provide the details behind your work, including methodology, data sources, experimental design, results, and limitations.
+
+Judges will evaluate submissions based on the following criteria:
+
+**Problem Importance & Potential Impact (30%)**
+Does the project address an important challenge in life science? Is the proposed solution meaningful and capable of creating practical or scientific value?
+
+**Technical Approach & Innovation (30%)**
+Is the AI method technically sound and innovative? Does the project effectively apply AI techniques to solve the proposed problem? Are the methodology and implementation clearly explained?
+
+**Results & Validation (20%)**
+Are the results reliable and well demonstrated? Does the project provide meaningful evaluation, comparisons, or experiments to support its effectiveness?
+
+**Reproducibility & Implementation Quality (10%)**
+Can the work be reproduced or further developed? Are the submitted code, models, datasets, and technical materials sufficiently documented and accessible for testing? Projects with limited reproducibility or low testability may receive lower scores in this category.
+
+**Presentation Quality (10%)**
+Does the video demo clearly communicate the problem, solution, and impact? Is the story engaging and easy to understand? Does the demonstration effectively showcase the value of the project?
+
+
+##### PAGE Data
+This challenge adopts an open data format. Teams may use any suitable data sources, including public, private, collaborative, simulated, or synthetic data. Data compliance, transparency, and reproducibility should be ensured. Solutions validated on real OoC experimental data are strongly encouraged.
+
+The datasets listed below are recommended examples only, provided for reference. Teams are free to use other external datasets based on their research needs, provided that the data source is clearly cited and all applicable licenses and usage conditions of the chosen dataset are complied with.
+
+| Dataset / Resource | Link | Description |
+| --- | --- | --- |
+| CellNet | [https://cellnet.hms.harvard.edu/](https://cellnet.hms.harvard.edu/) | A resource for cell identity analysis based on transcriptomics and gene regulatory networks. |
+| BBBC | [https://bbbc.broadinstitute.org/](https://bbbc.broadinstitute.org/) | A microscopy image benchmark collection with images, annotations, and biological labels. |
+| IDR | [https://idr.openmicroscopy.org/](https://idr.openmicroscopy.org/) | A public repository of biological images, phenotypes, and experimental metadata from published studies. |
+| RxRx1 | [https://www.rxrx.ai/rxrx1](https://www.rxrx.ai/rxrx1) | A large-scale cellular microscopy dataset with multi-channel fluorescence images and genetic perturbation data. |
+| CytoData | [https://www.cytodata.org/](https://www.cytodata.org/) | A community resource for image-based profiling, Cell Painting, and cellular phenotype analysis. |
+| JUMP Hub | [https://broadinstitute.github.io/jump_hub/](https://broadinstitute.github.io/jump_hub/) | A resource portal providing datasets, documentation, tools, and analysis examples for JUMP projects. |
+| JUMP-Cell Painting | [https://jump-cellpainting.broadinstitute.org/](https://jump-cellpainting.broadinstitute.org/) | A large-scale Cell Painting dataset containing compound and genetic perturbation imaging data. |
+
+Data Compliance: Teams must not use unauthorized personal, clinical, or restricted data. Data licenses, privacy protection, and ethical compliance should be clearly stated in the technical report.
+
+##### PAGE tracks-and-awards
+This is placeholder content. This will not be displayed, but exists to satisfy launch checklist conditions.
+
+##### PAGE Challenge Organization
+This challenge is organized as part of the **5th Pazhou Algorithm Competition**. For more information about the Competition, please visit the official website: [https://www.aicompetition-pz.com/](url)
+
+
+
+## Challenge Supporting Organization
+
+**CellShells Bioscience Co., Ltd.** supports the development of this challenge and provides domain expertise in organ-on-a-chip and life science applications.
+
+CellShells focuses on the development and application of **neural organ-on-a-chip technologies**. By reconstructing human neural microphysiological systems, the company aims to provide next-generation in vitro evaluation platforms for neural drug development.
+
+The founding team originates from the brain organ-on-a-chip laboratory at **Sorbonne University,** with long-term research experience in neural asymmetric connectivity, axon guidance, and functional neural circuit construction.
+
+CellShells believes that data is a key value carrier of organ-on-a-chip technologies. The company promotes the standardization, assetization, and intelligent use of experimental data while developing data intellectual property frameworks.
+
+In the future, the company aims to build **AI-driven organ-on-a-chip digital twins** based on neural organ-on-a-chip data assets, advancing the field from experimental description toward predictive simulation.
+
+
+##### PAGE judges
+This is placeholder content. This will not be displayed, but exists to satisfy launch checklist conditions.
+
+##### LEADERBOARD top10
