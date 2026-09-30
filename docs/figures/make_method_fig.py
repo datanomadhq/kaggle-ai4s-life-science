@@ -28,9 +28,9 @@ def arrow(ax, x0, y0, x1, y1):
 
 
 def main(field_npy: str | None = None, out: str = "docs/figures/fig_method.png"):
-    fig, ax = plt.subplots(figsize=(13, 4.6))
+    fig, ax = plt.subplots(figsize=(13, 3.9))
     ax.set_xlim(0, 13)
-    ax.set_ylim(0, 4.6)
+    ax.set_ylim(0.7, 4.6)
     ax.axis("off")
     # input thumbnail
     if field_npy and Path(field_npy).exists():
