@@ -1,0 +1,99 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{float}
+\hypersetup{colorlinks=true, linkcolor=blue!50!black, urlcolor=blue!50!black, citecolor=blue!50!black}
+\graphicspath{{../figures/}}
+\newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+
+\title{\textbf{VirtualPaint-Tox}: label-free virtual Cell Painting with pixel-wise uncertainty for non-destructive toxicity readouts in a liver microphysiological system}
+\author{Dmitriy Kompaneets (team leader; AI/CS) \\ \small Category: Model \& Algorithm \quad Track: AI4S Open Innovation -- AI for Life Science (5th Pazhou Algorithm Competition)}
+\date{October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\todo{Fill from final results.} Cell Painting, the five-dye morphological profiling assay, is the workhorse of image-based toxicity screening, but staining is terminal: a stained organ-on-chip or microphysiological system (MPS) cannot be followed further. We present VirtualPaint-Tox, a U-Net that predicts all five Cell Painting channels (DNA, ER, RNA, AGP, mitochondria) from a single brightfield image of a liver MPS (OASIS HepatoPAC primary human hepatocyte co-culture), together with a calibrated per-pixel uncertainty map. On held-out wells the virtual stain reaches Pearson $r$ of \todo{x} (DNA) to \todo{y} (AGP), the uncertainty ranks errors with Spearman \todo{z}, nuclear counts from the virtual DNA channel agree with the real ones ($r$=\todo{}), and simple morphological profiles from the virtual stain recover treated-vs-control and compound-effect structure \todo{as well as} the real stain. \todo{Axiom U2OS results.} Code, checkpoints and the exact public data subset are released for full reproduction on a laptop.
+\end{abstract}
+
+\section{Problem and application scenario}
+\label{sec:problem}
+
+\paragraph{Why it matters.}
+\todo{Impact: DILI is the leading cause of drug attrition and withdrawal; MPS/organ-chips are being adopted (FDA Modernization Act 2.0, 3Rs); Cell Painting is a rich but terminal endpoint; brightfield is free, non-toxic and repeatable; label-free readouts enable longitudinal monitoring of the same expensive chip, reduce dye costs and phototoxicity, and free fluorescence channels for other markers.}
+
+\paragraph{Task.}
+Given a brightfield image $x$ of a field of view, predict the five Cell Painting fluorescence channels $y \in \mathbb{R}^{5\times H\times W}$ and a per-pixel scale $b$ quantifying the expected error, such that downstream toxicological readouts computed from $\hat y$ match those computed from $y$.
+
+\paragraph{Scope of validation.}
+(i) pixel fidelity per channel on held-out wells; (ii) uncertainty calibration; (iii) biological fidelity: nuclear segmentation, interpretable morphological features, treatment-vs-control separation and compound-effect magnitude; (iv) \todo{cytotoxicity (MTT/LDH) prediction on Axiom U2OS}.
+
+\section{Data, licences and compliance}
+\label{sec:data}
+
+All data are public, released under CC0 1.0 by the Cell Painting Gallery \cite{weisbart2024} on the AWS Registry of Open Data (bucket \texttt{cellpainting-gallery}); no credentials, paid services or private data are used. No human-subject, clinical or personal data are involved: the biological material is commercially available primary hepatocyte co-culture (HepatoPAC, BioIVT) and the U2OS cell line.
+
+\subsection{OASIS HepatoPAC liver MPS (primary dataset)}
+The OASIS Consortium (HESI and the Broad Institute) \cite{oasis2025} profiles a reference set of $\sim$1,500 compounds with public in-vivo hepatotoxicity data across cell systems of increasing physiological relevance. Its \texttt{hepatopac} partition (batch \texttt{2026\_04\_13\_OASIS\_HepatoPAC\_Batch1}) images a micropatterned co-culture of primary human hepatocyte islands and 3T3-J2 stromal cells, a liver MPS used industrially for drug-induced liver injury (DILI) assessment. Acquisition: PerkinElmer Opera Phenix, 20$\times$ (NA 1.0), 2$\times$2 binning, $1080\times1080$ pixels at 0.593\,\textmu m/px, six channels: brightfield and the five Cell Painting dyes (Hoechst/DNA, concanavalin~A/ER, SYTO~14/RNA, WGA+phalloidin/AGP, MitoTracker/Mito). The ``Islands'' scan covers 48 wells $\times$ 49 fields = 2,352 fields (14,112 TIFFs, 33\,GB). The platemap lists five anonymised compounds (1--5) at two concentrations (low/high), each in four wells, and eight vehicle (negative-control) wells.
+
+\subsection{OASIS Axiom U2OS with biochemical cytotoxicity}
+\todo{describe subset: 50 compounds with full 8-point dose series (0.046--100 \textmu M) in batch prod\_25 + all wells with MTT $<$ 0.7 + 96 DMSO wells; one central field per well; 2160$\times$2160 at 0.3 \textmu m/px, 4$\times$ block-averaged to match the HepatoPAC pixel size; per-well MTT and LDH from \texttt{biochem.parquet}.}
+
+\subsection{Processing}
+Fields are stacked to $(6,H,W)$ uint16 arrays after $2\times2$ block averaging (1.19\,\textmu m/px), which quarters compute while keeping nuclei at $\sim$8--12\,px. Brightfield inputs are standardised per image (median / IQR); fluorescence targets are scaled per channel by the 0.5th/99.8th percentiles of training pixels. \textbf{Splits are by well}: 29 training, 7 validation and 12 test wells, stratified by treatment group (every compound/dose and two controls appear in the test set), so no field of a test well is ever seen during training or model selection.
+
+\section{Method}
+\label{sec:method}
+
+\subsection{Model}
+A 2D U-Net (4 resolution levels, 32--512 channels, 7.8\,M parameters) maps the brightfield image to five output channels. We add a \emph{heteroscedastic} head: for each channel the network predicts a mean $\mu$ and a log-scale $\log b$ of a Laplace distribution and is trained with the negative log-likelihood
+\begin{equation}
+\mathcal{L} = \frac{1}{N}\sum_{\text{pixels}} \left( \frac{|y-\mu|}{b} + \log b \right) \;+\; \lambda_{\text{SSIM}}\,(1-\text{SSIM}(\mu,y)),
+\end{equation}
+so that $b$ is a calibrated estimate of the expected absolute error and can be displayed as a trust map. Training uses random $256\times256$ crops with flips/rotations, AdamW (lr $3\cdot10^{-4}$, cosine schedule, 200 warm-up steps), batch 16, on Apple-Silicon MPS. Inference runs on full fields with 4-fold flip test-time augmentation (means and scales averaged).
+
+\subsection{Baselines and ablations}
+Per-pixel linear map (no context), a shallow CNN (25\,px receptive field, no down-sampling), the same U-Net trained with plain L1 (no uncertainty), with an added SSIM term, and with 25\,\% / 50\,\% of the training wells. All ablations use an identical compute budget (1,500 steps); the main model is trained for 5,000 steps and we also report it at the 1,500-step checkpoint for a like-for-like comparison.
+
+\subsection{Downstream fidelity protocol}
+The same label-free pipeline is run on real and virtual channels: (1) Hoechst nuclei are segmented (Gaussian smoothing, Otsu, distance-transform watershed) and counted; objects are matched at IoU$\ge$0.5. (2) 49 interpretable field-level features (nuclear count/area/shape; per-channel intensity, nuclear-vs-cytoplasmic ratio, gradient and texture) are computed; we report the per-feature correlation between real and virtual values across test fields. (3) Well profiles (median over fields, standardised to control fields) give a well-by-well similarity matrix (Mantel correlation real vs virtual) and a per-well \emph{effect magnitude} (mean $|z|$ vs controls) whose rank agreement across treated wells is reported. (4) Leave-one-well-out logistic regression separates treated from control fields using real features, virtual features, or brightfield-only texture features (the label-free control that shows what the virtual stain adds).
+
+\section{Results}
+\label{sec:results}
+\todo{Tables and figures from results/hepatopac/figures.}
+
+\subsection{Pixel fidelity}
+\begin{table}[H]
+\centering\small
+\caption{Test-set Pearson correlation per channel (mean over 588 fields of 12 held-out wells, $\pm$ 95\% CI over wells).}
+\input{../../results/hepatopac/figures/results_table.tex}
+\end{table}
+
+\subsection{Uncertainty calibration}
+\subsection{Biological fidelity}
+\subsection{Cytotoxicity prediction (Axiom U2OS)}
+\subsection{Ablations}
+
+\section{Reliability analysis and limitations}
+\todo{single batch/plate; 5 anonymised compounds; half resolution; 2D; classical segmentation; uncertainty is aleatoric only; domain shift across systems; not a replacement for regulatory endpoints.}
+
+\section{Impact}
+\section{Reproduction}
+\section{Third-party resources and licences}
+\begin{thebibliography}{9}
+\bibitem{weisbart2024} E.~Weisbart et al. Cell Painting Gallery: an open resource for image-based profiling. \emph{Nature Methods} 21, 1775--1777 (2024).
+\bibitem{oasis2025} OASIS Consortium. The OASIS Consortium: integrating multi-omics technologies to transform chemical safety assessment. (2025). \todo{full citation}
+\bibitem{bray2016} M.-A.~Bray et al. Cell Painting, a high-content image-based assay for morphological profiling using multiplexed fluorescent dyes. \emph{Nature Protocols} 11, 1757--1774 (2016).
+\bibitem{christiansen2018} E.~M.~Christiansen et al. In silico labeling: predicting fluorescent labels in unlabeled images. \emph{Cell} 173, 792--803 (2018).
+\bibitem{ounkomol2018} C.~Ounkomol et al. Label-free prediction of three-dimensional fluorescence images from transmitted-light microscopy. \emph{Nature Methods} 15, 917--920 (2018).
+\bibitem{crosszamirski2022} J.~O.~Cross-Zamirski et al. Label-free prediction of cell painting from brightfield images. \emph{Scientific Reports} 12, 10001 (2022).
+\bibitem{kendall2017} A.~Kendall and Y.~Gal. What uncertainties do we need in Bayesian deep learning for computer vision? \emph{NeurIPS} (2017).
+\bibitem{ronneberger2015} O.~Ronneberger, P.~Fischer, T.~Brox. U-Net: convolutional networks for biomedical image segmentation. \emph{MICCAI} (2015).
+\end{thebibliography}
+\end{document}

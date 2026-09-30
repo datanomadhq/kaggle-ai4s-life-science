@@ -80,11 +80,14 @@ def main(argv=None):
         if a.sites:
             ld = ld[ld.Metadata_Site.isin(a.sites.split(","))]
         keys = sorted({u.replace("s3://cellpainting-gallery/", "") for c in URL_COLS for u in ld[c]})
-    todo = [k for k in keys if not (out / os.path.basename(k)).exists()]
+    # with an explicit key list (e.g. several Opera Phenix plates whose file names repeat), keep the parent folder
+    def dest(k: str) -> Path:
+        return out / os.path.basename(os.path.dirname(k)) / os.path.basename(k) if a.keys_file else out / os.path.basename(k)
+    todo = [k for k in keys if not dest(k).exists()]
     print(f"{len(keys)} files, {len(todo)} to download -> {out}")
     n = 0
     with ThreadPoolExecutor(a.workers) as ex:
-        futs = [ex.submit(fetch, k, out / os.path.basename(k)) for k in todo]
+        futs = [ex.submit(fetch, k, dest(k)) for k in todo]
         for f in as_completed(futs):
             f.result()
             n += 1

@@ -27,6 +27,8 @@ def main(argv=None):
     ap.add_argument("--n-compounds", type=int, default=80)
     ap.add_argument("--n-dmso", type=int, default=96)
     ap.add_argument("--fields-per-well", type=int, default=1)
+    ap.add_argument("--extra-toxic-mtt", type=float, default=0.7,
+                    help="also include every well of the batch with MTT below this (cytotoxic wells are rare, ~3%%)")
     ap.add_argument("--out", required=True)
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args(argv)
@@ -54,7 +56,7 @@ def main(argv=None):
     rest = list(complete.index[n_tox:])
     rng.shuffle(rest)
     chosen = toxic + rest[: a.n_compounds - n_tox]                         # plus random (mostly inactive) ones
-    sel = cmp[cmp.compound_name.isin(chosen)]
+    sel = cmp[cmp.compound_name.isin(chosen) | (cmp.mtt_normalized < a.extra_toxic_mtt)]
     dmso = wells[wells.compound_name == "DMSO"]
     # spread DMSO wells over the plates that contribute compound wells
     plates = sel.Metadata_Plate.value_counts()
