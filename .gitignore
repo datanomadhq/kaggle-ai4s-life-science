@@ -19,3 +19,6 @@ __pycache__/
 results/**/pred/
 results/**/*.pt
 results_quick/
+docs/video/demo.mp4
+docs/video/build/
+build/

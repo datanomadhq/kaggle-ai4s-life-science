@@ -74,6 +74,8 @@ def main():
     a = ap.parse_args()
     work = Path(a.work)
     work.mkdir(parents=True, exist_ok=True)
+    a.out = str(Path(a.out).resolve())
+    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     slides = load_slides()
     parts, total = [], 0.0
     for i, s in enumerate(slides):
