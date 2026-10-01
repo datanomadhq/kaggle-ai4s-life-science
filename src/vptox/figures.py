@@ -193,7 +193,7 @@ def fig_training(res: Path, out: Path):
 
 def fig_downstream(res: Path, out: Path):
     d = res / "downstream"
-    if not (d / "summary.json").exists():
+    if not (d / "nuclei.csv").exists():  # HepatoPAC-style downstream only (Axiom's toxicity module draws its own figures)
         return
     nuc = pd.read_csv(d / "nuclei.csv")
     fid = pd.read_csv(d / "feature_fidelity.csv")

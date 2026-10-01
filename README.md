@@ -6,7 +6,7 @@ Entry for the Kaggle hackathon [AI4S Open Innovation: AI for Life Science](https
 
 Cell Painting stains five cellular compartments with fluorescent dyes and is the workhorse morphological assay in toxicology, but staining is terminal: the tissue cannot be imaged again. Organ-on-chip and microphysiological systems (MPS) are expensive and long-lived, so labs want non-destructive, repeatable readouts. VirtualPaint-Tox learns to predict the five Cell Painting channels (DNA, ER, RNA, AGP, Mito) from a plain **brightfield** image of a **liver MPS** (OASIS HepatoPAC primary-hepatocyte co-culture), reports a **per-pixel uncertainty** so users know where the virtual stain can be trusted, and tests whether the virtual stain carries the same *toxicological* information as the real one (nuclear counts, treatment-effect detection, compound identification).
 
-![example](docs/figures/fig_examples.png)
+![example](docs/figures/fig_examples.jpg)
 
 ## Data (public, CC0, no credentials)
 
