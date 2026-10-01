@@ -1,0 +1,87 @@
+{
+  "n_fields": 931,
+  "n_wells": 19,
+  "nuclei": {
+    "count_pearson": 0.7145970916563374,
+    "count_mean_real": 206.22448979591837,
+    "count_mean_virtual": 184.52309344790547,
+    "object_f1_iou50": 0.5487566866234544,
+    "precision": 0.5799343209693756,
+    "recall": 0.5455588862078269
+  },
+  "feature_fidelity": {
+    "median_pearson": 0.7830221538730541,
+    "frac_pearson_gt_0.7": 0.673469387755102,
+    "n_features": 49
+  },
+  "well_similarity_mantel_spearman": 0.46314349485204126,
+  "effect_magnitude_spearman": 0.6,
+  "effect_magnitude_pearson": 0.9179566129692622,
+  "dose_pairs": {
+    "n": 5,
+    "agree": 4,
+    "pairs": [
+      {
+        "compound": "1",
+        "real_high_minus_low": 0.8005329220892278,
+        "virtual_high_minus_low": 0.6871115577908216,
+        "agree": true
+      },
+      {
+        "compound": "2",
+        "real_high_minus_low": 0.11222008856475238,
+        "virtual_high_minus_low": -0.017616635203569958,
+        "agree": false
+      },
+      {
+        "compound": "3",
+        "real_high_minus_low": -0.1949174633642628,
+        "virtual_high_minus_low": -0.08848656679833172,
+        "agree": true
+      },
+      {
+        "compound": "4",
+        "real_high_minus_low": 0.05535303849654025,
+        "virtual_high_minus_low": 0.03249908008757657,
+        "agree": true
+      },
+      {
+        "compound": "5",
+        "real_high_minus_low": -0.031091647885562873,
+        "virtual_high_minus_low": -0.06843845390940581,
+        "agree": true
+      }
+    ]
+  },
+  "treated_vs_control": {
+    "real": {
+      "auc": 0.7118908788004997,
+      "balanced_acc": 0.6777210884353742
+    },
+    "virtual": {
+      "auc": 0.616774260724698,
+      "balanced_acc": 0.6171343537414966
+    },
+    "brightfield": {
+      "auc": 0.5698753991392476,
+      "balanced_acc": 0.5444302721088435
+    }
+  },
+  "compound_id": {
+    "real": {
+      "well_accuracy": 0.3684210526315789,
+      "n_wells": 19,
+      "chance": 0.16666666666666666
+    },
+    "virtual": {
+      "well_accuracy": 0.3157894736842105,
+      "n_wells": 19,
+      "chance": 0.16666666666666666
+    },
+    "brightfield": {
+      "well_accuracy": 0.2631578947368421,
+      "n_wells": 19,
+      "chance": 0.16666666666666666
+    }
+  }
+}
