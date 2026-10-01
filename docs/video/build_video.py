@@ -19,7 +19,6 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib.offsetbox import AnnotationBbox, OffsetImage  # noqa: E402
 import matplotlib.image as mpimg  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,6 +32,17 @@ def load_slides() -> list[dict]:
     return json.loads(p.read_text())
 
 
+def fit_image(ax, im, box):
+    """Draw image inside box=(x0, y0, x1, y1) in slide coordinates, preserving aspect ratio, centred."""
+    h, w = im.shape[:2]
+    bw, bh = box[2] - box[0], box[3] - box[1]
+    scale = min(bw / w, bh / h)
+    dw, dh = w * scale, h * scale
+    x0 = box[0] + (bw - dw) / 2
+    y0 = box[1] + (bh - dh) / 2
+    ax.imshow(im, extent=(x0, x0 + dw, y0, y0 + dh), aspect="auto", interpolation="lanczos")
+
+
 def render_slide(s: dict, out: Path):
     fig = plt.figure(figsize=(19.2, 10.8), dpi=100, facecolor=BG)
     ax = fig.add_axes([0, 0, 1, 1])
@@ -42,25 +52,24 @@ def render_slide(s: dict, out: Path):
     ax.text(80, 990, s["title"], color=ACC, fontsize=38, fontweight="bold", va="top")
     img = s.get("image")
     img_path = (ROOT / img) if img else None
-    has_img = img_path is not None and img_path.exists()
-    text_w = 0.42 if has_img else 0.9
+    im = mpimg.imread(img_path) if (img_path is not None and img_path.exists()) else None
+    wide = im is not None and im.shape[1] / im.shape[0] > 1.7
+    side = im is not None and not wide
+    wrap = 52 if side else 100
     y = 880
     for b in s.get("bullets", []):
-        for line in textwrap.wrap(b, width=int(60 * text_w / 0.42) if has_img else 95):
-            ax.text(90, y, ("•  " if line == textwrap.wrap(b, width=int(60 * text_w / 0.42) if has_img else 95)[0] else "    ") + line,
-                    color=FG, fontsize=24, va="top")
-            y -= 46
-        y -= 14
-    if has_img:
-        im = mpimg.imread(img_path)
-        h, w = im.shape[:2]
-        box_w, box_h = 1000, 800
-        scale = min(box_w / w, box_h / h)
-        ab = AnnotationBbox(OffsetImage(im, zoom=scale * 100 / 100), (1920 - 60 - box_w / 2, 520), frameon=False)
-        ax.add_artist(ab)
+        lines = textwrap.wrap(b, width=wrap)
+        for k, line in enumerate(lines):
+            ax.text(90, y, ("\u2022  " if k == 0 else "    ") + line, color=FG, fontsize=22 if wide else 24, va="top")
+            y -= 42
+        y -= 12
+    if side:
+        fit_image(ax, im, (1000, 70, 1870, 940))
+    elif wide:
+        fit_image(ax, im, (80, 60, 1840, max(140, y - 20)))
     if s.get("footer"):
         ax.text(80, 40, s["footer"], color="#94a3b8", fontsize=16, va="bottom")
-    ax.text(1840, 40, s.get("page", ""), color="#94a3b8", fontsize=16, va="bottom", ha="right")
+    ax.text(1840, 30, s.get("page", ""), color="#94a3b8", fontsize=16, va="bottom", ha="right")
     fig.savefig(out, facecolor=BG)
     plt.close(fig)
 
