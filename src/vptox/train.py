@@ -135,7 +135,7 @@ def main(argv=None):
     print(f"model={a.model} params={n_params/1e6:.2f}M device={device} train_fields={len(train_ds.m)} "
           f"train_wells={train_ds.m.well.nunique()} val_fields={len(val_ds)} steps={a.steps}", flush=True)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=a.weight_decay)
-    warm = min(200, a.steps // 10)
+    warm = max(1, min(200, a.steps // 10))
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda s: min(1.0, (s + 1) / warm) * 0.5 * (1 + math.cos(math.pi * min(1.0, s / max(1, a.steps)))))
     nll = a.nll_mode
