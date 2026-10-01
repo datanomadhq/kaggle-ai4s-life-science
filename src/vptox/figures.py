@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 from . import CHANNELS  # noqa: E402
 from .data import normalise_input, normalise_targets  # noqa: E402
 
-LABELS = {"unet": "U-Net + uncertainty (ours, 5k steps)", "unet_nounc_long": "U-Net, L1 only (5k steps)",
+LABELS = {"unet": "U-Net + uncertainty (ours, 5k steps)", "unet_nounc_long": "U-Net, L1 only (5k steps)", "unet_detfeat": "U-Net + uncertainty on detached features (5k steps)",
           "unet_short": "U-Net + uncertainty (ours, 1.5k steps)", "unet_short_seed1": "U-Net + uncertainty (1.5k steps, seed 1)",
           "unet_nounc": "U-Net, L1 only", "unet_jointnll": "U-Net, joint NLL",
           "unet_ssim": "U-Net + SSIM", "smallcnn": "Shallow CNN", "linear": "Per-pixel linear",

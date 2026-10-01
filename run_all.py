@@ -37,9 +37,10 @@ EXPERIMENTS = {  # order = training order
     # cross-system fine-tuning (deployment recipe): start from the other system's model, 500 steps on the target system
     "unet_ft_from_hepatopac": ["--model", "unet", "--init-from", "results/hepatopac/unet/best.pt", "--lr", "1e-4"],
     "unet_ft_from_axiom": ["--model", "unet", "--init-from", "results/axiom/unet/best.pt", "--lr", "1e-4"],
+    "unet_detfeat": ["--model", "unet_detfeat"],                    # scale head on detached features (trunk = L1-only), 5k steps
 }
 NPY_OVERRIDE = {"unet_fullres": "npy"}  # experiment -> data/<dataset>/<dir> with differently preprocessed stacks
-STEPS_OVERRIDE = {"unet_nounc_long": 5000, "unet_ft_from_hepatopac": 500, "unet_ft_from_axiom": 500}
+STEPS_OVERRIDE = {"unet_nounc_long": 5000, "unet_detfeat": 5000, "unet_ft_from_hepatopac": 500, "unet_ft_from_axiom": 500}
 DATASET_EXPERIMENTS = {"hepatopac": list(EXPERIMENTS), "axiom": ["unet", "linear"]}
 QUICK_EXPERIMENTS = ["unet", "linear"]
 

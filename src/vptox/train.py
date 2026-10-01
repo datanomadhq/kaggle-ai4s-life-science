@@ -80,7 +80,7 @@ def main(argv=None):
     ap.add_argument("--manifest", required=True)
     ap.add_argument("--npy-dir", required=True)
     ap.add_argument("--out-dir", required=True)
-    ap.add_argument("--model", default="unet", choices=["unet", "unet_nounc", "linear", "smallcnn"])
+    ap.add_argument("--model", default="unet", choices=["unet", "unet_detfeat", "unet_nounc", "linear", "smallcnn"])
     ap.add_argument("--base", type=int, default=32)
     ap.add_argument("--depth", type=int, default=4)
     ap.add_argument("--steps", type=int, default=5000, help="total optimizer steps (compute budget)")

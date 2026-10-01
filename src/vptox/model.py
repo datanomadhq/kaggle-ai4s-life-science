@@ -20,9 +20,11 @@ def conv_block(cin: int, cout: int) -> nn.Sequential:
 
 
 class UNet(nn.Module):
-    def __init__(self, in_ch: int = 1, out_ch: int = 5, base: int = 32, depth: int = 4, uncertainty: bool = True):
+    def __init__(self, in_ch: int = 1, out_ch: int = 5, base: int = 32, depth: int = 4, uncertainty: bool = True,
+                 detach_scale_input: bool = False):
         super().__init__()
         self.uncertainty = uncertainty
+        self.detach_scale_input = detach_scale_input  # scale head reads detached features: the trunk is trained by L1 only
         self.out_ch = out_ch
         chs = [base * 2 ** i for i in range(depth + 1)]
         self.enc = nn.ModuleList()
@@ -37,7 +39,10 @@ class UNet(nn.Module):
             self.up.append(nn.ConvTranspose2d(chs[i], chs[i - 1], 2, stride=2))
             self.dec.append(conv_block(chs[i - 1] * 2, chs[i - 1]))
         self.head_mu = nn.Conv2d(chs[0], out_ch, 1)
-        self.head_logb = nn.Conv2d(chs[0], out_ch, 1) if uncertainty else None
+        if uncertainty and detach_scale_input:  # a small branch of its own, since it cannot shape the trunk features
+            self.head_logb = nn.Sequential(nn.Conv2d(chs[0], chs[0], 3, padding=1), nn.ReLU(inplace=True), nn.Conv2d(chs[0], out_ch, 1))
+        else:
+            self.head_logb = nn.Conv2d(chs[0], out_ch, 1) if uncertainty else None
 
     def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor | None]:
         skips = []
@@ -50,7 +55,10 @@ class UNet(nn.Module):
             x = up(x)
             x = dec(torch.cat([x, s], dim=1))
         mu = self.head_mu(x)
-        logb = self.head_logb(x).clamp(-7, 3) if self.uncertainty else None
+        if self.uncertainty:
+            logb = self.head_logb(x.detach() if self.detach_scale_input else x).clamp(-7, 3)
+        else:
+            logb = None
         return mu, logb
 
 
@@ -84,6 +92,8 @@ class SmallCNN(nn.Module):
 def build_model(name: str, **kw) -> nn.Module:
     if name == "unet":
         return UNet(**kw)
+    if name == "unet_detfeat":  # scale head on detached features: trunk identical to the L1-only model
+        return UNet(**kw, detach_scale_input=True)
     if name == "unet_nounc":
         kw = dict(kw)
         kw["uncertainty"] = False
