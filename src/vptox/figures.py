@@ -44,7 +44,8 @@ def load_summaries(res: Path) -> pd.DataFrame:
             if done.exists():
                 j.update({f"train_{k}": v for k, v in json.loads(done.read_text()).items()})
             rows.append(j)
-    return pd.DataFrame(rows).set_index("experiment")
+    df = pd.DataFrame(rows).set_index("experiment")
+    return df[~df.index.str.startswith("transfer_")]  # zero-shot transfer is reported in its own table
 
 
 def results_table(df: pd.DataFrame, out: Path):
