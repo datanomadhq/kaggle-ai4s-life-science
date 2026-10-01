@@ -60,7 +60,8 @@ def results_table(df: pd.DataFrame, out: Path):
         lines_tex.append(f"{LABELS.get(e, e)} & " + " & ".join(p.replace('±', r'$\pm$') for p in pcc) +
                          f" & {mean_pcc:.3f} & {mean_ssim:.3f} & {params:.2f} \\\\")
     (out / "results_table.md").write_text("\n".join(lines_md) + "\n")
-    (out / "results_table.tex").write_text("\n".join(lines_tex) + "\n")
+    header = ("\\begin{tabular}{lcccccccc}\n\\toprule\nModel & DNA & ER & RNA & AGP & Mito & mean $r$ & mean SSIM & params (M) \\\\\n\\midrule\n")
+    (out / "results_table.tex").write_text(header + "\n".join(lines_tex) + "\n\\bottomrule\n\\end{tabular}\n")
 
 
 def fig_channels(df: pd.DataFrame, out: Path):
