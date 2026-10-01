@@ -69,7 +69,7 @@ def fig_channels(df: pd.DataFrame, out: Path):
     exps = [e for e in LABELS if e in df.index]
     x = np.arange(len(CHANNELS))
     w = 0.8 / len(exps)
-    fig, ax = plt.subplots(figsize=(8, 3.6))
+    fig, ax = plt.subplots(figsize=(9, 4.4))
     for i, e in enumerate(exps):
         vals = [df.loc[e, f"pcc_{c}"] for c in CHANNELS]
         errs = [df.loc[e].get(f"pcc_{c}_ci95", 0) for c in CHANNELS]
@@ -77,10 +77,10 @@ def fig_channels(df: pd.DataFrame, out: Path):
     ax.set_xticks(x, CHANNELS)
     ax.set_ylabel("Pearson r (test fields)")
     ax.set_ylim(0, 1)
-    ax.legend(fontsize=7, ncol=2)
+    ax.legend(fontsize=7, ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.1), frameon=False)
     ax.grid(axis="y", alpha=0.3)
     fig.tight_layout()
-    fig.savefig(out / "fig_channels.png", dpi=200)
+    fig.savefig(out / "fig_channels.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
 
 
