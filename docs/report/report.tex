@@ -119,14 +119,15 @@ Pixel correlation is not the question a toxicologist asks; Fig.~\ref{fig:downstr
 \toprule
 Readout (virtual vs.\ real stain) & test & test+val \\
 \midrule
-Nuclei per field, Pearson $r$ & 0.71 & \todo{} \\
-Nuclei object F1 (IoU $\ge$ 0.5) & 0.56 & \todo{} \\
-Feature fidelity, median $r$ over 49 features & 0.81 & \todo{} \\
-Features with $r > 0.7$ & 67\,\% & \todo{} \\
-Well similarity matrices, Mantel (Spearman) & 0.46 & \todo{} \\
-Compound effect magnitude, Spearman over treated wells & 0.55 (10 wells) & \todo{} \\
-Dose pairs ordered alike (high vs.\ low) & \todo{} & \todo{} \\
-Treated vs.\ control AUC: real / virtual / brightfield & 0.61 / 0.53 / 0.51 & \todo{} \\
+Nuclei per field, Pearson $r$ & 0.71 & 0.71 \\
+Nuclei object F1 (IoU $\ge$ 0.5) & 0.56 & 0.55 \\
+Feature fidelity, median $r$ over 49 features & 0.81 & 0.78 \\
+Features with $r > 0.7$ & 67\,\% & 67\,\% \\
+Well similarity matrices, Mantel (Spearman) & 0.46 & 0.46 \\
+Compound effect magnitude, Spearman (Pearson) over treated wells & 0.55 (0.97), 10 wells & 0.60 (0.92), 16 wells \\
+Dose pairs ordered alike (high vs.\ low effect)$^\dagger$ & 3/5 & 4/5 \\
+Treated vs.\ control AUC: real / virtual / brightfield & 0.61 / 0.53 / 0.51 & 0.71 / 0.62 / 0.57 \\
+Compound identity, well accuracy (chance 0.17): real / virtual / brightfield & 0.33 / 0.08 / 0.33 & 0.37 / 0.32 / 0.26 \\
 \bottomrule
 \end{tabular}
 \end{table}

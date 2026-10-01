@@ -16,6 +16,43 @@
   },
   "well_similarity_mantel_spearman": 0.4556726855234319,
   "effect_magnitude_spearman": 0.5515151515151515,
+  "effect_magnitude_pearson": 0.9687762788815568,
+  "dose_pairs": {
+    "n": 5,
+    "agree": 3,
+    "pairs": [
+      {
+        "compound": "1",
+        "real_high_minus_low": 1.099325092481499,
+        "virtual_high_minus_low": 0.7924764831053379,
+        "agree": true
+      },
+      {
+        "compound": "2",
+        "real_high_minus_low": 0.02784145947581168,
+        "virtual_high_minus_low": -0.021196692075490853,
+        "agree": false
+      },
+      {
+        "compound": "3",
+        "real_high_minus_low": -0.2523815092147225,
+        "virtual_high_minus_low": -0.1825483567417286,
+        "agree": true
+      },
+      {
+        "compound": "4",
+        "real_high_minus_low": 0.043369167401889536,
+        "virtual_high_minus_low": -0.09486696402821124,
+        "agree": false
+      },
+      {
+        "compound": "5",
+        "real_high_minus_low": 0.06505625422663046,
+        "virtual_high_minus_low": 0.032983117424067426,
+        "agree": true
+      }
+    ]
+  },
   "treated_vs_control": {
     "real": {
       "auc": 0.6142648896293211,
