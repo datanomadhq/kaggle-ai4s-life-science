@@ -78,13 +78,14 @@
   {
     "title": "Label-free cytotoxicity on a second system",
     "bullets": [
-      "OASIS Axiom U2OS: 150+ compounds, 8 doses, per-well MTT and LDH viability",
-      "Unseen compounds, compound-grouped cross-validation",
-      "Cytotoxic (MTT < 0.5) AUC: real stain <>, virtual stain <>, brightfield <>",
-      "Dose-response curves of nuclear count from virtual DNA follow measured viability"
+      "OASIS Axiom U2OS: 186 compounds, 8 doses, per-well MTT and LDH viability; 227 test wells of 56 unseen compounds",
+      "Virtual stain on U2OS: mean Pearson 0.76 (DNA 0.81)",
+      "Cytotoxic (MTT < 0.5) AUC, compound-grouped CV: real stain 0.92 | virtual stain 0.92 | brightfield texture 0.83",
+      "MTT viability, Spearman: real 0.61 | virtual 0.62 | brightfield 0.41",
+      "Dose-response of nuclear counts from virtual DNA follows measured viability"
     ],
     "image": "results/axiom/downstream/fig_toxicity.png",
-    "narration": "On a second public system, U2OS cells with biochemical viability measured for every well, label-free virtual-stain features predict cytotoxicity of unseen compounds with an area under the curve of <>, close to the real stain, and dose-response curves computed from virtual nuclei follow the measured viability."
+    "narration": "On a second public system, U2OS cells with biochemical viability measured for every well, label-free virtual-stain features predict the cytotoxicity of unseen compounds with an area under the curve of 0.92, equal to the real stain and well above brightfield texture alone, and dose-response curves computed from virtual nuclei follow the measured viability."
   },
   {
     "title": "Impact, limitations, next steps",
