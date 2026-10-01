@@ -182,6 +182,7 @@ def fig_training(res: Path, out: Path):
         axes[1].plot(log.step, log.val_pcc_mean, label=LABELS[e])
     axes[0].set_xlabel("optimizer step")
     axes[0].set_ylabel("train L1")
+    axes[0].set_ylim(0.04, 0.2)
     axes[1].set_xlabel("optimizer step")
     axes[1].set_ylabel("val mean Pearson")
     axes[1].legend(fontsize=7)
