@@ -61,6 +61,42 @@ Not used: `cpg0037-oasis/xellar` (organ-chip Cell Painting, no brightfield) and 
 - Lesson from the first (joint-NLL) attempt: val Pearson peaked at step 1000 (mean 0.674; DNA 0.43, ER 0.70, RNA 0.79, AGP 0.68, Mito 0.78) then decayed (0.607 at 1500) while train L1 kept falling: joint heteroscedastic NLL lets the mean give up on hard pixels. The default is now L1 for the mean + NLL on detached residuals for the scale; joint NLL kept as ablation `unet_jointnll`. DNA is the hard channel at 1.19 um/px; `unet_fullres` ablation tests resolution.
 - Report skeleton `docs/report/report.tex` compiles with tectonic (`tectonic -X compile report.tex`); Writeup draft `docs/writeup.md`; video script `docs/video/script.md`, builder `docs/video/build_video.py` (needs `slides.json`).
 
+## Handoff (written 2026-10-01 ~08:10 UTC; deadline 2026-10-10 15:59 UTC)
+
+### Deliverable status
+| Deliverable | Status | Where |
+|---|---|---|
+| Code repo | complete, reproducible (`python run_all.py --quick` 13 min; full runs reproduce every number); checkpoints on GitHub release `v1.0-checkpoints` | this repo (still **private**) |
+| Technical report | complete draft, 15 pages, compiles with `cd docs/report && tectonic -X compile report.tex`; one `\todo{unet\_short}` number pending | `docs/report/report.tex` -> `report.pdf` (PDF not committed yet; commit the final one once) |
+| Demo video | built, 3:34, slides + `say` narration, all figures real | `docs/video/demo.mp4` (gitignored; attach to the release and upload to YouTube unlisted) |
+| Writeup text | drafted with final numbers | `docs/writeup.md` |
+| Results | all experiments done except `unet_short` (ours at 1,500 steps; queued, `data/logs/queue_short.log`) | `results/` (summaries, metrics, figures committed; `pred/` and `*.pt` ignored) |
+
+### Remaining work (by day)
+- **Oct 1**: when `results/hepatopac/unet_short/summary_test.json` exists: `python run_all.py --stage figures` (regenerates table incl. unet_short), replace `\todo{unet\_short}` in `docs/report/report.tex` with its mean r, recompile, `git add results/hepatopac/unet_short/{summary_test.json,metrics_test.csv,log.csv,done.json,config.json}`, commit. Then `zsh scripts/make_release.sh` (adds the unet_short checkpoint) and `gh release upload v1.0-checkpoints docs/video/demo.mp4 docs/report/report.pdf --clobber`. Commit `docs/report/report.pdf` once (11 MB).
+- **Oct 2-3**: proofread the report (check figures 1-10 placement, the `\todo` macro must not remain anywhere: `grep -n todo docs/report/report.tex`), optionally add a one-page "Related work" paragraph; re-run `python run_all.py --quick` in a fresh clone to confirm the README instructions; polish README.
+- **Oct 4-8**: buffer. Possible extras if time: Cellpose instead of classical segmentation; fine-tuning experiment (HepatoPAC model -> U2OS with 100 wells); NeuroPainting (cpg0038, neurons with brightfield) zero-shot demo for the sponsor's neural focus.
+- **Oct 9 (latest)**: Dmitriy's steps below. Do not start new experiments after Oct 8.
+
+### Steps only Dmitriy can do
+1. Fill in the organisers' registration form (link in `reference/competition_pages.txt`, "PAGE abstract"); without it the entry is not evaluated.
+2. Make the repo public: `gh repo edit datanomadhq/kaggle-ai4s-life-science --visibility public --accept-visibility-change-consequences` (then `python -m vptox.checkpoints` works without auth; verify once: `curl -sI https://github.com/datanomadhq/kaggle-ai4s-life-science/releases/download/v1.0-checkpoints/hepatopac__unet__best.pt | head -1` should be a 302).
+3. Upload `docs/video/demo.mp4` to YouTube (unlisted is fine; must be viewable without login) or attach it to the Kaggle Writeup.
+4. Create the Kaggle Writeup from `docs/writeup.md`: category declaration first line, video link, repo link, 200-300-word summary, report link (GitHub `docs/report/report.pdf` raw URL or the release asset), optional demo note. Submit before 2026-10-10 15:59 UTC.
+5. Confirm the author name/affiliation on the report title page (`docs/report/report.tex`, `\author`) and in `docs/writeup.md`.
+
+### Exact commands
+```
+cd /Users/dmitriy/Developer/Kaggle/kaggle-ai4s-life-science && source .venv/bin/activate
+python run_all.py --quick                                   # smoke test, ~13 min
+python run_all.py --stage figures                           # HepatoPAC table + figures from results/
+python run_all.py --dataset axiom --stage downstream,figures
+cd docs/report && tectonic -X compile report.tex && cd ../..
+python docs/video/build_video.py --out docs/video/demo.mp4  # ~2 min, macOS say + ffmpeg
+zsh scripts/make_release.sh                                 # upload checkpoints (gh auth required)
+```
+Logs of the overnight queue: `data/logs/queue_*.log`. GPU is shared: expect 1-4 s/step.
+
 ## Data rules
 
 Use only public datasets with licences that allow this use; never commit raw data. Attribute: dataset publication(s), Cell Painting Gallery (Weisbart et al. 2024, Nature Methods), AWS Open Data Sponsorship Program.
