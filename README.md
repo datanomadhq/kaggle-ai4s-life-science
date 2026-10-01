@@ -50,7 +50,7 @@ Stages and their scripts (each is also a standalone CLI, `python -m vptox.<modul
 
 Experiments trained by `run_all.py` (`EXPERIMENTS` dict): `unet` (ours: U-Net + Laplace uncertainty head, 5,000 steps), `unet_nounc` (L1 only), `unet_ssim` (+SSIM), `smallcnn`, `linear` (per-pixel), `unet_frac25`, `unet_frac50` (training-set size). Ablations use 1,500 steps of batch 16 x 256^2 crops.
 
-Trained checkpoints are small (31 MB) and are published as a GitHub release asset (see `docs/`), so `--stage eval,downstream,figures` reproduces every number in the report without training.
+Trained checkpoints are small (31 MB each) and are published as assets of the GitHub release `v1.0-checkpoints`; `python run_all.py --stage eval,downstream,figures` fetches them automatically (`python -m vptox.checkpoints --dataset hepatopac --experiments unet,linear,...`) and reproduces every number in the report without training.
 
 ## Inference on your own brightfield image
 

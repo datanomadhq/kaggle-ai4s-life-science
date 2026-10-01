@@ -38,6 +38,7 @@
       "The uncertainty map tells the biologist where the virtual stain is reliable",
       "Baselines: per-pixel linear, shallow CNN, U-Net without uncertainty, +SSIM, 25 / 50 % of wells, full resolution"
     ],
+    "image": "docs/figures/fig_method.png",
     "narration": "A U-Net predicts all five channels from one brightfield image. The twist: every pixel also gets a predicted error scale, trained with a Laplace likelihood. The result is a trust map that tells a biologist where the virtual stain is reliable and where it is guessing. We compare against per-pixel and shallow baselines and ablate the loss, the training-set size and the resolution."
   },
   {
