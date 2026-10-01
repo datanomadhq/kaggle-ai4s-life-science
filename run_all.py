@@ -31,6 +31,7 @@ EXPERIMENTS = {  # order = training order
     "unet_frac50": ["--model", "unet", "--train-frac", "0.5"],      # ablation: 50% of training wells
     "unet_fullres": ["--model", "unet"],                            # ablation: full resolution (0.59 um/px), npy override below
     "unet_ssim": ["--model", "unet", "--ssim-weight", "0.5"],       # ablation: + SSIM term
+    "unet_short": ["--model", "unet"],                              # ours at the ablation budget (1,500 steps) for like-for-like comparison
 }
 NPY_OVERRIDE = {"unet_fullres": "npy"}  # experiment -> data/<dataset>/<dir> with differently preprocessed stacks
 DATASET_EXPERIMENTS = {"hepatopac": list(EXPERIMENTS), "axiom": ["unet", "linear"]}
