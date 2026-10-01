@@ -88,9 +88,9 @@ The same label-free pipeline is run on real and virtual channels: (1) Hoechst nu
 
 \section{Results}
 \label{sec:results}
-\todo{Tables and figures from results/hepatopac/figures.}
 
 \subsection{Pixel fidelity}
+On the 588 fields of the 12 held-out wells the main model reaches a mean Pearson correlation of 0.787 across channels: RNA/nucleoli 0.847 and mitochondria 0.852 are predicted best, ER 0.774 and AGP 0.732 follow, and DNA, the channel with the finest structure (individual nuclei of 8--12\,px), reaches 0.729. SSIM lies between 0.67 (AGP, ER) and 0.76 (Mito), PSNR between 18 and 21\,dB. For comparison, the only published brightfield-to-Cell-Painting study \cite{crosszamirski2022} reports a mean Pearson of 0.84 on a monolayer cancer cell line at full resolution with a 17-batch training set; our 0.79 is obtained on a thick primary-hepatocyte co-culture, at half resolution, from 29 training wells of a single plate. Validation Pearson rose monotonically with training (0.54 at 250 steps, 0.70 at 1,500, 0.78 at 4,500), so the model is compute-limited rather than data-limited at this budget.
 \begin{table}[H]
 \centering\small
 \caption{Test-set Pearson correlation per channel (mean over 588 fields of 12 held-out wells, $\pm$ 95\% CI over wells).}

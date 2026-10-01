@@ -178,13 +178,14 @@ def main(argv=None):
     ap.add_argument("--pred-dir", required=True, help="directory with <field_id>.npy virtual stains (from predict --save-pred)")
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--splits", default="test", help="comma-separated manifest splits to analyse (predictions must exist)")
     a = ap.parse_args(argv)
     out = Path(a.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     m = pd.read_csv(a.manifest)
     stats = json.loads((Path(a.npy_dir) / "stats.json").read_text())
     pred_dir = Path(a.pred_dir)
-    m = m[m.field_id.map(lambda f: (pred_dir / f"{f}.npy").exists())].reset_index(drop=True)
+    m = m[m.split.isin(a.splits.split(",")) & m.field_id.map(lambda f: (pred_dir / f"{f}.npy").exists())].reset_index(drop=True)
     if a.quick:
         m = m.iloc[:: max(1, len(m) // 40)]
     print(f"{len(m)} fields with predictions, {m.well.nunique()} wells")
@@ -241,6 +242,18 @@ def main(argv=None):
     treated = eff[eff.compound != "control"]
     if len(treated) >= 3:
         summary["effect_magnitude_spearman"] = float(spearmanr(treated.effect_real, treated.effect_virtual).correlation)
+        summary["effect_magnitude_pearson"] = float(pearsonr(treated.effect_real, treated.effect_virtual)[0])
+        # dose pairs: does the virtual stain order low < high dose the same way as the real stain?
+        pairs = []
+        for c, g in treated.groupby("compound"):
+            lo, hi = g[g.concentration == "low"], g[g.concentration == "high"]
+            if len(lo) and len(hi):
+                r_dir = np.sign(hi.effect_real.mean() - lo.effect_real.mean())
+                v_dir = np.sign(hi.effect_virtual.mean() - lo.effect_virtual.mean())
+                pairs.append({"compound": str(c), "real_high_minus_low": float(hi.effect_real.mean() - lo.effect_real.mean()),
+                              "virtual_high_minus_low": float(hi.effect_virtual.mean() - lo.effect_virtual.mean()), "agree": bool(r_dir == v_dir)})
+        if pairs:
+            summary["dose_pairs"] = {"n": len(pairs), "agree": int(sum(p["agree"] for p in pairs)), "pairs": pairs}
     # treated vs control classification, real vs virtual vs brightfield-only
     if (fr.compound == "control").sum() > 0 and (fr.compound != "control").sum() > 0 and fr.well.nunique() >= 4:
         summary["treated_vs_control"] = {"real": treated_vs_control_cv(fr, feat_cols), "virtual": treated_vs_control_cv(fv, feat_cols),

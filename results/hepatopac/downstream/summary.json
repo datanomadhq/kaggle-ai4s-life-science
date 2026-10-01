@@ -1,0 +1,50 @@
+{
+  "n_fields": 588,
+  "n_wells": 12,
+  "nuclei": {
+    "count_pearson": 0.7062359749120204,
+    "count_mean_real": 208.95578231292518,
+    "count_mean_virtual": 184.77721088435374,
+    "object_f1_iou50": 0.5558171176813598,
+    "precision": 0.5918661372252151,
+    "recall": 0.5530281208467358
+  },
+  "feature_fidelity": {
+    "median_pearson": 0.8149918971347432,
+    "frac_pearson_gt_0.7": 0.673469387755102,
+    "n_features": 49
+  },
+  "well_similarity_mantel_spearman": 0.4556726855234319,
+  "effect_magnitude_spearman": 0.5515151515151515,
+  "treated_vs_control": {
+    "real": {
+      "auc": 0.6142648896293211,
+      "balanced_acc": 0.5938775510204082
+    },
+    "virtual": {
+      "auc": 0.5346314035818409,
+      "balanced_acc": 0.5224489795918368
+    },
+    "brightfield": {
+      "auc": 0.5052269887546855,
+      "balanced_acc": 0.5
+    }
+  },
+  "compound_id": {
+    "real": {
+      "well_accuracy": 0.3333333333333333,
+      "n_wells": 12,
+      "chance": 0.16666666666666666
+    },
+    "virtual": {
+      "well_accuracy": 0.08333333333333333,
+      "n_wells": 12,
+      "chance": 0.16666666666666666
+    },
+    "brightfield": {
+      "well_accuracy": 0.3333333333333333,
+      "n_wells": 12,
+      "chance": 0.16666666666666666
+    }
+  }
+}
