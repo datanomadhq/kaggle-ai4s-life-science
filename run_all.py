@@ -32,8 +32,11 @@ EXPERIMENTS = {  # order = training order
     "unet_fullres": ["--model", "unet"],                            # ablation: full resolution (0.59 um/px), npy override below
     "unet_ssim": ["--model", "unet", "--ssim-weight", "0.5"],       # ablation: + SSIM term
     "unet_short": ["--model", "unet"],                              # ours at the ablation budget (1,500 steps) for like-for-like comparison
+    "unet_short_seed1": ["--model", "unet", "--seed", "1"],         # second seed of the above: run-to-run variance
+    "unet_nounc_long": ["--model", "unet_nounc"],                   # L1-only at the full 5,000-step budget: is the uncertainty head free?
 }
 NPY_OVERRIDE = {"unet_fullres": "npy"}  # experiment -> data/<dataset>/<dir> with differently preprocessed stacks
+STEPS_OVERRIDE = {"unet_nounc_long": 5000}
 DATASET_EXPERIMENTS = {"hepatopac": list(EXPERIMENTS), "axiom": ["unet", "linear"]}
 QUICK_EXPERIMENTS = ["unet", "linear"]
 
@@ -105,7 +108,7 @@ def main():
             if (out / "done.json").exists() and not a.force:
                 print(f"skip train {name} (done)")
                 continue
-            n_steps = steps if name == "unet" else ablation_steps
+            n_steps = steps if name == "unet" else STEPS_OVERRIDE.get(name, ablation_steps)
             if name == "linear":
                 n_steps = min(n_steps, 500)
             npy_e = data / NPY_OVERRIDE[name] if name in NPY_OVERRIDE else npy
