@@ -52,6 +52,16 @@ Experiments trained by `run_all.py` (`EXPERIMENTS` dict): `unet` (ours: U-Net + 
 
 Trained checkpoints are small (31 MB each) and are published as assets of the GitHub release `v1.0-checkpoints`; `python run_all.py --stage eval,downstream,figures` fetches them automatically (`python -m vptox.checkpoints --dataset hepatopac --experiments unet,linear,...`) and reproduces every number in the report without training.
 
+## Results (HepatoPAC, 12 held-out wells / 588 fields)
+
+| Channel | DNA | ER | RNA | AGP | Mito | mean |
+|---|---|---|---|---|---|---|
+| Pearson r (U-Net + uncertainty, ours) | 0.73 | 0.77 | 0.85 | 0.73 | 0.85 | 0.79 |
+| SSIM | 0.74 | 0.67 | 0.73 | 0.67 | 0.76 | 0.71 |
+| Spearman(predicted scale, abs. error) | 0.49 | 0.59 | 0.62 | 0.54 | 0.63 | |
+
+Downstream, with the same label-free pipeline on virtual and real stains: nuclei per field r = 0.71; 67% of 49 interpretable features reproduced with r > 0.7 (median 0.81); compound-effect ranking across treated wells Spearman 0.55. Full tables, baselines, ablations, calibration and the Axiom U2OS cytotoxicity experiment are in the technical report (`docs/report/report.pdf`).
+
 ## Inference on your own brightfield image
 
 ```bash

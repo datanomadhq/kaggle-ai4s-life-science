@@ -111,6 +111,25 @@ The predicted Laplace scale is informative at every level of granularity. Per pi
 
 \subsection{Biological fidelity}
 Pixel correlation is not the question a toxicologist asks; Fig.~\ref{fig:downstream} and Table~\ref{tab:downstream} report what the label-free pipeline recovers. \textbf{Nuclei.} Counting nuclei with the same classical segmentation on the virtual and on the real DNA channel gives $r = 0.71$ across the 588 test fields; the virtual channel under-counts by 12\,\% on average (185 vs.\ 209 nuclei per field) because touching nuclei inside dense islands are rendered as merged blobs, and object-level matching at IoU $\ge 0.5$ gives F1 = 0.56. Cell-density readouts are therefore reliable at the field level, single-nucleus morphometry is not yet. \textbf{Features.} Of 49 interpretable features, 67\,\% are reproduced with $r > 0.7$ across fields and the median is 0.81; intensity-, texture- and density-type features of all five channels transfer best (RNA/Mito/AGP/ER means $r > 0.9$), whereas nuclear-vs-cytoplasmic intensity ratios and nuclear shape descriptors (eccentricity, area) are the least faithful---again a consequence of the blurred nuclear boundaries. \textbf{Treatment structure.} Standardising profiles to the control fields and summarising each well by its mean $|z|$ gives a compound-effect magnitude whose ranking across the ten treated test wells agrees between real and virtual profiles (Spearman 0.55); the single strongly bioactive condition on the plate, compound 1 at high dose, is by far the largest effect in both (1.38 vs.\ 1.07), and it is also the only well in which pixel fidelity drops (DNA $r$ = 0.64 vs.\ 0.72--0.75 elsewhere), consistent with cell loss and altered morphology that the model has seen less of. The Mantel correlation between the well-by-well similarity matrices is 0.46. \textbf{Treated vs.\ control.} With only two control wells in the test set and compounds whose effects at these doses are subtle, a leave-one-well-out classifier separates treated from control fields barely above chance even with real Cell Painting features (AUC 0.61); virtual features (0.53) and brightfield texture (0.51) are lower still. We report this negative result as is: on this plate the limiting factor is the biology and the number of control wells, not the virtual stain, and the cytotoxicity experiment on Axiom (next section) is the appropriate test of label-free toxicity readouts.
+\begin{table}[H]
+\centering\small
+\caption{Biological fidelity of the virtual stain on held-out HepatoPAC wells. ``test'' = 12 test wells (588 fields); ``test+val'' additionally includes the 7 validation wells, which were used only for checkpoint selection (19 wells, 931 fields). Effect magnitude = mean $|z|$ of a well's profile vs.\ control fields.}
+\label{tab:downstream}
+\begin{tabular}{lcc}
+\toprule
+Readout (virtual vs.\ real stain) & test & test+val \\
+\midrule
+Nuclei per field, Pearson $r$ & 0.71 & \todo{} \\
+Nuclei object F1 (IoU $\ge$ 0.5) & 0.56 & \todo{} \\
+Feature fidelity, median $r$ over 49 features & 0.81 & \todo{} \\
+Features with $r > 0.7$ & 67\,\% & \todo{} \\
+Well similarity matrices, Mantel (Spearman) & 0.46 & \todo{} \\
+Compound effect magnitude, Spearman over treated wells & 0.55 (10 wells) & \todo{} \\
+Dose pairs ordered alike (high vs.\ low) & \todo{} & \todo{} \\
+Treated vs.\ control AUC: real / virtual / brightfield & 0.61 / 0.53 / 0.51 & \todo{} \\
+\bottomrule
+\end{tabular}
+\end{table}
 \figifl{../../results/hepatopac/figures/fig_downstream.png}{1.0}{Downstream fidelity on held-out wells. Left: nuclei per field segmented from the real vs.\ the virtual DNA channel. Middle: correlation across fields between each morphological feature computed from the real and from the virtual stain. Right: per-well compound effect magnitude (mean $|z|$ vs.\ control fields) from real vs.\ virtual profiles.}{fig:downstream}
 \todo{table: nuclei count r, object F1, median feature fidelity, Mantel, effect Spearman, treated-vs-control AUC (real / virtual / brightfield), compound-id accuracy.}
 

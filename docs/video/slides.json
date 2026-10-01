@@ -55,13 +55,13 @@
   {
     "title": "Results: pixel fidelity and calibration",
     "bullets": [
-      "Held-out wells: Pearson r per channel  <numbers>",
-      "Far above per-pixel and shallow-CNN baselines",
-      "Predicted scale ranks the true errors (Spearman <z>); sparsification error <AUSE>",
-      "Training-set size and resolution ablations"
+      "12 held-out wells, 588 fields: Pearson r  DNA 0.73 | ER 0.77 | RNA 0.85 | AGP 0.73 | Mito 0.85  (mean 0.79)",
+      "Shallow CNN 0.65, per-pixel linear ~0.1; same compute budget for all ablations",
+      "Uncertainty ranks pixel errors (Spearman 0.49-0.63) and whole-field errors (r = 0.95-0.98); flags artefacts",
+      "Training-set size, loss and resolution ablations in the report"
     ],
     "image": "results/hepatopac/figures/fig_channels.png",
-    "narration": "On held-out wells the virtual channels reach Pearson correlations of <numbers>, far above per-pixel and shallow baselines. The uncertainty is informative: the predicted scale ranks the actual errors with Spearman <z>, so the trust map can be used for quality control."
+    "narration": "On twelve held-out wells the virtual channels reach Pearson correlations of 0.73 for DNA, 0.77 for E R, 0.85 for RNA, 0.73 for A G P and 0.85 for mitochondria, far above per-pixel and shallow baselines. The uncertainty is informative: the predicted scale ranks pixel errors with Spearman up to 0.63 and whole-field errors with r above 0.95, so the trust map can be used for quality control, and it flags imaging artefacts."
   },
   {
     "title": "Does the virtual stain carry biology?",
