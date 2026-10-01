@@ -59,6 +59,8 @@ Trained checkpoints are small (31 MB each) and are published as assets of the Gi
 | Pearson r (U-Net + uncertainty, ours) | 0.73 | 0.77 | 0.85 | 0.73 | 0.85 | 0.79 |
 | SSIM | 0.74 | 0.67 | 0.73 | 0.67 | 0.76 | 0.71 |
 | Spearman(predicted scale, abs. error) | 0.49 | 0.59 | 0.62 | 0.54 | 0.63 | |
+| Pearson r, shallow CNN baseline | 0.40 | 0.69 | 0.77 | 0.68 | 0.80 | 0.67 |
+| Pearson r, per-pixel linear baseline | 0.08 | -0.11 | 0.14 | 0.14 | 0.15 | 0.08 |
 
 Downstream, with the same label-free pipeline on virtual and real stains: nuclei per field r = 0.71; 67% of 49 interpretable features reproduced with r > 0.7 (median 0.81); compound-effect ranking across treated wells Spearman 0.55. Full tables, baselines, ablations, calibration and the Axiom U2OS cytotoxicity experiment are in the technical report (`docs/report/report.pdf`).
 

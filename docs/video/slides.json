@@ -56,7 +56,7 @@
     "title": "Results: pixel fidelity and calibration",
     "bullets": [
       "12 held-out wells, 588 fields: Pearson r  DNA 0.73 | ER 0.77 | RNA 0.85 | AGP 0.73 | Mito 0.85  (mean 0.79)",
-      "Shallow CNN 0.65, per-pixel linear ~0.1; same compute budget for all ablations",
+      "Shallow CNN 0.67, per-pixel linear 0.08; L1-only / joint-NLL / +SSIM / 25% wells / full-res ablations in the report",
       "Uncertainty ranks pixel errors (Spearman 0.49-0.63) and whole-field errors (r = 0.95-0.98); flags artefacts",
       "Training-set size, loss and resolution ablations in the report"
     ],
