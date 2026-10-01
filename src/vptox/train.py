@@ -99,6 +99,7 @@ def main(argv=None):
     ap.add_argument("--device", default="auto")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--time-budget-min", type=float, default=0, help="stop after this many minutes (0 = no limit)")
+    ap.add_argument("--init-from", default="", help="checkpoint to initialise the weights from (fine-tuning across systems)")
     a = ap.parse_args(argv)
 
     torch.set_num_threads(a.threads)
@@ -126,6 +127,10 @@ def main(argv=None):
     val_dl = DataLoader(val_ds, batch_size=1, shuffle=False, num_workers=min(a.workers, 2))
 
     model = build_model(a.model, in_ch=1, out_ch=len(CHANNELS), base=a.base, depth=a.depth).to(device)
+    if a.init_from:
+        ck = torch.load(a.init_from, map_location="cpu", weights_only=False)
+        model.load_state_dict(ck["model"])
+        print(f"initialised from {a.init_from} (step {ck.get('step')})", flush=True)
     n_params = sum(p.numel() for p in model.parameters())
     print(f"model={a.model} params={n_params/1e6:.2f}M device={device} train_fields={len(train_ds.m)} "
           f"train_wells={train_ds.m.well.nunique()} val_fields={len(val_ds)} steps={a.steps}", flush=True)
