@@ -66,13 +66,14 @@
   {
     "title": "Does the virtual stain carry biology?",
     "bullets": [
-      "Nuclear counts from virtual DNA vs real DNA: r = <>",
-      "<>% of interpretable morphological features preserved",
-      "Treated vs control (leave-one-well-out AUC): real <>, virtual <>, brightfield texture <>",
-      "Per-well compound effect magnitude: Spearman <> between real and virtual"
+      "Same label-free pipeline on real and virtual stains, 19 held-out wells",
+      "Nuclear counts from virtual vs real DNA: r = 0.71",
+      "67% of 49 interpretable morphological features preserved (r > 0.7), median r = 0.81",
+      "Compound-effect ranking across treated wells: Spearman 0.60; 4 of 5 dose pairs ordered alike",
+      "Treated vs control AUC: real 0.71, virtual 0.62, brightfield texture 0.57 (subtle effects on this plate)"
     ],
     "image": "results/hepatopac/figures/fig_downstream.png",
-    "narration": "Does the virtual stain carry biology? Nuclear counts from virtual DNA match the real ones. Most interpretable features survive. Treated wells separate from controls with virtual features almost as well as with real ones, and much better than from brightfield texture alone, and the ranking of compound effects is preserved."
+    "narration": "Does the virtual stain carry biology? We run the same label-free pipeline on real and virtual stains. Nuclear counts agree with r equal 0.71. Two thirds of the interpretable morphological features are reproduced. The ranking of compound effects across treated wells is recovered, including the one strongly cytotoxic condition on the plate, and four of five dose pairs are ordered alike. Treated-versus-control separation is subtle on this plate even for the real stain, and the virtual stain sits between the real stain and brightfield texture."
   },
   {
     "title": "Label-free cytotoxicity on a second system",
