@@ -118,6 +118,9 @@ def main():
     if "eval" in stages:
         for name in exps:
             out = res / name
+            if not (out / "best.pt").exists() and not a.quick:
+                # evaluation without training: fetch the released checkpoint (GitHub release v1.0-checkpoints)
+                run([PY, "-m", "vptox.checkpoints", "--dataset", a.dataset, "--experiments", name])
             if not (out / "best.pt").exists():
                 continue
             if (out / "summary_test.json").exists() and not a.force:
