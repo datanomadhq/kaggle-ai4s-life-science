@@ -1,0 +1,23 @@
+{
+  "manifest": "/Users/dmitriy/Developer/Kaggle/kaggle-ai4s-life-science/data/hepatopac/manifest.csv",
+  "npy_dir": "/Users/dmitriy/Developer/Kaggle/kaggle-ai4s-life-science/data/hepatopac/npy_ds2",
+  "out_dir": "/Users/dmitriy/Developer/Kaggle/kaggle-ai4s-life-science/results/hepatopac/unet_short_seed1",
+  "model": "unet",
+  "base": 32,
+  "depth": 4,
+  "steps": 1500,
+  "val_every": 250,
+  "batch": 16,
+  "crop": 256,
+  "lr": 0.0003,
+  "weight_decay": 0.0001,
+  "ssim_weight": 0.0,
+  "nll_mode": "detached",
+  "train_frac": 1.0,
+  "max_val_fields": 48,
+  "workers": 3,
+  "threads": 4,
+  "device": "auto",
+  "seed": 1,
+  "time_budget_min": 0
+}
