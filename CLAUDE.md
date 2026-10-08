@@ -81,7 +81,7 @@ Not used: `cpg0037-oasis/xellar` (organ-chip Cell Painting, no brightfield) and 
 ### Done on 2026-10-08 (no further engineering work is pending)
 - Fresh-clone test of the README instructions: `gh repo clone` -> `uv venv` -> install -> `python run_all.py --quick` ran every stage (own 1 GB download, 360 TIFFs) and exited 0 in 3 minutes.
 - GitHub release `v1.0-checkpoints` now holds 19 assets: all 17 checkpoints (incl. `unet_detfeat`, `unet_nounc_long`, both fine-tuned models, seed 1), `demo.mp4` and `report.pdf`.
-- Report has no `\\todo` left, 15 pages, pushed. Headline model stays the frozen 0.787 model in report, video and writeup; the 0.817 detached-features variant is reported as a later control.
+- Report has no `\todo` left, 15 pages, pushed. Headline model stays the frozen 0.787 model in report, video and writeup; the 0.817 detached-features variant is reported as a later control.
 
 ### Steps only Dmitriy can do
 1. Fill in the organisers' registration form (link in `reference/competition_pages.txt`, "PAGE abstract"); without it the entry is not evaluated.
