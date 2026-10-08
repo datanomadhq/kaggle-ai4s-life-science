@@ -78,6 +78,11 @@ Not used: `cpg0037-oasis/xellar` (organ-chip Cell Painting, no brightfield) and 
 - **Oct 4-8**: buffer. Possible extras if time: Cellpose instead of classical segmentation; fine-tuning experiment (HepatoPAC model -> U2OS with 100 wells); NeuroPainting (cpg0038, neurons with brightfield) zero-shot demo for the sponsor's neural focus.
 - **Oct 9 (latest)**: Dmitriy's steps below. Do not start new experiments after Oct 8.
 
+### Done on 2026-10-08 (no further engineering work is pending)
+- Fresh-clone test of the README instructions: `gh repo clone` -> `uv venv` -> install -> `python run_all.py --quick` ran every stage (own 1 GB download, 360 TIFFs) and exited 0 in 3 minutes.
+- GitHub release `v1.0-checkpoints` now holds 19 assets: all 17 checkpoints (incl. `unet_detfeat`, `unet_nounc_long`, both fine-tuned models, seed 1), `demo.mp4` and `report.pdf`.
+- Report has no `\\todo` left, 15 pages, pushed. Headline model stays the frozen 0.787 model in report, video and writeup; the 0.817 detached-features variant is reported as a later control.
+
 ### Steps only Dmitriy can do
 1. Fill in the organisers' registration form (link in `reference/competition_pages.txt`, "PAGE abstract"); without it the entry is not evaluated.
 2. Make the repo public: `gh repo edit datanomadhq/kaggle-ai4s-life-science --visibility public --accept-visibility-change-consequences` (then `python -m vptox.checkpoints` works without auth; verify once: `curl -sI https://github.com/datanomadhq/kaggle-ai4s-life-science/releases/download/v1.0-checkpoints/hepatopac__unet__best.pt | head -1` should be a 302).

@@ -31,10 +31,12 @@ Tested on macOS (Apple Silicon, PyTorch MPS) with 4 CPU threads and 16 GB RAM; a
 ## Reproduce
 
 ```bash
-python run_all.py --quick      # ~20 min smoke test: 6 wells x 8 fields, 40 optimizer steps, all stages
+python run_all.py --quick      # smoke test of every stage: 6 wells x 8 fields (1 GB download), 40 optimizer steps
 python run_all.py              # full run: download (33 GB) -> manifest -> preprocess -> train 7 models -> evaluate -> downstream -> figures
 python run_all.py --stage eval,downstream,figures   # re-run late stages on existing checkpoints
 ```
+
+`--quick` exists to show that the whole pipeline runs from a fresh clone (verified on 2026-10-08: clone, install and all stages in 3 minutes on an Apple-silicon laptop, results in `results_quick/`). Its model is trained for 40 steps, so the numbers and figures it prints are not results; the results in the report come from the full run or from the released checkpoints.
 
 Stages and their scripts (each is also a standalone CLI, `python -m vptox.<module> --help`):
 
