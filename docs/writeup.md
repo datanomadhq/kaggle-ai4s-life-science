@@ -8,7 +8,7 @@ https://youtu.be/Y-NtpgwLSFM (3:29, unlisted, viewable without login; built with
 
 ## Code repository
 
-https://github.com/datanomadhq/kaggle-ai4s-life-science (public; MIT; `python run_all.py --quick` reproduces the pipeline in ~20 min, `python run_all.py` reproduces every number in the report)
+https://github.com/datanomadhq/kaggle-ai4s-life-science (public; MIT; `python run_all.py --quick` runs every stage from a fresh clone in a few minutes, `python run_all.py` reproduces every number in the report)
 
 ## Project summary (200-300 words)
 
