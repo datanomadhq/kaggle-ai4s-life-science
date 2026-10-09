@@ -22,7 +22,7 @@ The value: a repeatable, label-free toxicity readout for long-lived chips, with 
 
 ## Technical report
 
-`<public PDF link (GitHub docs/report/report.pdf)>` — also summarised below.
+https://github.com/datanomadhq/kaggle-ai4s-life-science/blob/main/docs/report/report.pdf (direct download: https://github.com/datanomadhq/kaggle-ai4s-life-science/releases/download/v1.0-checkpoints/report.pdf) — also summarised below.
 
 ## Optional demo
 
