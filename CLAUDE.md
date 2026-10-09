@@ -87,7 +87,8 @@ Not used: `cpg0037-oasis/xellar` (organ-chip Cell Painting, no brightfield) and 
 - Repo made public (Dmitriy approved); checkpoint, report and video release links verified without login.
 - Demo video uploaded to the Data Nomad YouTube channel, unlisted: https://youtu.be/Y-NtpgwLSFM (verified without login: unlisted, playable, 3:29).
 - `docs/writeup.md` has every link filled in and is ready to paste.
-- **Left for Dmitriy:** the registration form (needs his WhatsApp number, country, travel answer) and creating + submitting the Kaggle Writeup, before 2026-10-10 15:59 UTC (11:59 EDT).
+- Registration form submitted by Dmitriy (confirmation seen in Safari).
+- **Kaggle Writeup SUBMITTED 2026-10-09** (status "Submitted!"): https://www.kaggle.com/competitions/ai-4-s-open-innovation-artificial-intelligence-for-life-scien/writeups/virtualpaint-tox-virtual-cell-painting-with-uncer . Text = `docs/writeup_kaggle.md` (organisers' template headings), card image from the examples figure, YouTube video in the media gallery, repo link, report PDF attached. It can be edited and resubmitted until 2026-10-10 15:59 UTC (Edit -> Update Submission). Note: a file attached in the editor only persists when saved with the main Save / Update button, not via the "Just checking" prompt.
 
 ### Steps only Dmitriy can do
 1. Fill in the organisers' registration form (link in `reference/competition_pages.txt`, "PAGE abstract"); without it the entry is not evaluated.
