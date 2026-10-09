@@ -4,7 +4,7 @@
 
 ## Demo video
 
-`<YouTube unlisted link, viewable without login>` (max 5 min; built with `docs/video/build_video.py`)
+https://youtu.be/Y-NtpgwLSFM (3:29, unlisted, viewable without login; built with `docs/video/build_video.py`)
 
 ## Code repository
 

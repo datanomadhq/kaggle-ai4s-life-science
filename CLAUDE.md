@@ -83,6 +83,12 @@ Not used: `cpg0037-oasis/xellar` (organ-chip Cell Painting, no brightfield) and 
 - GitHub release `v1.0-checkpoints` now holds 19 assets: all 17 checkpoints (incl. `unet_detfeat`, `unet_nounc_long`, both fine-tuned models, seed 1), `demo.mp4` and `report.pdf`.
 - Report has no `\todo` left, 15 pages, pushed. Headline model stays the frozen 0.787 model in report, video and writeup; the 0.817 detached-features variant is reported as a later control.
 
+### Done on 2026-10-09
+- Repo made public (Dmitriy approved); checkpoint, report and video release links verified without login.
+- Demo video uploaded to the Data Nomad YouTube channel, unlisted: https://youtu.be/Y-NtpgwLSFM (verified without login: unlisted, playable, 3:29).
+- `docs/writeup.md` has every link filled in and is ready to paste.
+- **Left for Dmitriy:** the registration form (needs his WhatsApp number, country, travel answer) and creating + submitting the Kaggle Writeup, before 2026-10-10 15:59 UTC (11:59 EDT).
+
 ### Steps only Dmitriy can do
 1. Fill in the organisers' registration form (link in `reference/competition_pages.txt`, "PAGE abstract"); without it the entry is not evaluated.
 2. Make the repo public: `gh repo edit datanomadhq/kaggle-ai4s-life-science --visibility public --accept-visibility-change-consequences` (then `python -m vptox.checkpoints` works without auth; verify once: `curl -sI https://github.com/datanomadhq/kaggle-ai4s-life-science/releases/download/v1.0-checkpoints/hepatopac__unet__best.pt | head -1` should be a 302).
